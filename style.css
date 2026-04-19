@@ -3,7 +3,7 @@
         grid-template-columns: 1fr; /* Stacks them on mobile */
     }
     .algo-card {
-        height: 350px;
+        height: 700px;
     }
 }
 /* The main 4-way grid */
@@ -21,7 +21,7 @@
     
     /* FIX: The card must be large enough to see */
     min-height: 350px !important; 
-    height: 350px;
+    height: 700px;
     
     background: #222;
     padding: 15px;
