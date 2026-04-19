@@ -16,7 +16,7 @@ export async function wait() {
     await new Promise(r => setTimeout(r, 501 - speed));
 }
 
-export function render(array, containerId, activeIndices = []) {
+export function render(array, containerId, activeIndices = [], isFinished = false) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
@@ -24,13 +24,21 @@ export function render(array, containerId, activeIndices = []) {
     array.forEach((val, idx) => {
         const bar = document.createElement('div');
         bar.className = 'bar';
+        bar.style.height = `${val}%`;
         
-        // This is the percentage height
-        bar.style.height = `${val}%`; 
-        
-        if (activeIndices.includes(idx)) {
-            bar.style.backgroundColor = "#e74c3c"; // Red for active
+        if (isFinished) {
+            // All bars turn Green when the algo is done
+            bar.style.backgroundColor = "#2ecc71"; 
+        } else if (activeIndices.includes(idx)) {
+            // Active comparison bars turn White or Red to stand out
+            bar.style.backgroundColor = "#ffffff"; 
+        } else {
+            // Rainbow effect: maps value (0-100) to a hue (200-300 range is nice blues/purples)
+            // Or use (val * 3.6) for a full 360-degree rainbow
+            const hue = val * 2.4; 
+            bar.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
         }
+        
         container.appendChild(bar);
     });
 }
