@@ -3,7 +3,7 @@ import { quickSort } from './algos/quicksort.js';
 import { mergeSort } from './algos/mergesort.js';
 import { heapSort } from './algos/heapsort.js';
 
-import { state, wait } from './controller.js';
+import { state, wait, render } from './controller.js';
 
 let masterArray = [];
 let isRunning = false; 
@@ -41,24 +41,6 @@ window.startRace = async function() {
     isRunning = false;
     document.getElementById('status').innerText = "Status: Finished!";
 };
-
-export function render(array, containerId, activeIndices = []) {
-    const container = document.getElementById(containerId);
-    if (!container) return; // Safety check
-    
-    container.innerHTML = '';
-    array.forEach((val, idx) => {
-        const bar = document.createElement('div');
-        bar.className = 'bar';
-        bar.style.height = `${val}%`;
-        
-        if (activeIndices.includes(idx)) {
-            bar.style.backgroundColor = "#e74c3c"; // Red highlight
-        }
-        
-        container.appendChild(bar);
-    });
-}
 
 function generateNewArray(size = 50) {
     masterArray = Array.from({length: size}, () => Math.floor(Math.random() * 100));
