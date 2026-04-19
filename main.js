@@ -4,6 +4,7 @@ import { mergeSort } from './algos/mergesort.js';
 import { heapSort } from './algos/heapsort.js';
 
 import { state, wait, render } from './controller.js';
+import { audioCtx } from './audio.js';
 import { toggleMute } from './audio.js';
 
 let masterArray = [];
@@ -38,7 +39,7 @@ window.triggerStep = function() {
 window.startRace = async function() {
     
     if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
+        await audioCtx.resume();
     }
     
     if (isRunning) return; 
