@@ -1,33 +1,31 @@
 export const state = {
+    delay: 100,
     isPaused: false,
     isResetting: false,
-    stepRequested: false,
-    delay: 100
+    stepCount: 0
 };
 
-export const wait = () => {
+export const wait = (localStepTracker) => {
     return new Promise((resolve) => {
         const check = () => {
-            // 1. If we are resetting, kill the promise immediately
             if (state.isResetting) {
                 resolve();
                 return;
             }
 
-            // 2. If a step was requested, consume it and move forward
-            if (state.stepRequested) {
-                state.stepRequested = false; // Reset the flag
-                resolve(); // This "steps" the algorithm forward one frame
+            // If the global count is higher than where this specific algo is, STEP!
+            if (state.isPaused && state.stepCount > localStepTracker.count) {
+                localStepTracker.count++; 
+                resolve();
                 return;
             }
 
-            // 3. If we are NOT paused, wait the normal delay
             if (!state.isPaused) {
+                // Sync the local tracker to global so it doesn't "jump" when unpaused
+                localStepTracker.count = state.stepCount; 
                 setTimeout(resolve, state.delay);
-            } 
-            // 4. If we ARE paused, keep checking for a resume or a step
-            else {
-                requestAnimationFrame(check); 
+            } else {
+                requestAnimationFrame(check);
             }
         };
         check();
