@@ -68,12 +68,12 @@ input[type="range"] {
 .algo-card {
     display: flex;
     flex-direction: column;
-    height: 450px;
+    height: 450px; /* Keep this fixed */
     background: #222;
     padding: 15px;
     border: 2px solid #444;
     border-radius: 8px;
-    box-sizing: border-box;
+    overflow: hidden; /* Prevents text from leaking outside the card */
 }
 
 .algo-card h3 {
@@ -84,15 +84,12 @@ input[type="range"] {
 
 /* --- Visualizer Bars --- */
 .bar-container {
+    flex: 2; /* Gives the chart MORE weight (2/3 of the card) */
     display: flex;
-    flex-direction: row;
     align-items: flex-end;
-    flex-grow: 1;
-    width: 100%;
     background-color: #111;
     padding: 5px;
-    box-sizing: border-box;
-    border-radius: 4px;
+    width: 100%;
 }
 
 .bar {
@@ -103,15 +100,15 @@ input[type="range"] {
 
 /* --- Code Snippet View --- */
 .code-view {
-    height: 120px;
-    overflow-y: auto;
-    font-size: 0.75rem;
+    flex: 1; /* Gives the code LESS weight (1/3 of the card) */
+    height: 100px; /* Strictly limit height */
+    overflow-y: auto; /* Adds a scrollbar if the code is long */
     background: #000;
-    margin-top: 10px;
+    color: #00ff00; /* Optional: Matrix-style green text */
     padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #333;
-    -webkit-overflow-scrolling: touch;
+    font-size: 0.7rem;
+    font-family: monospace;
+    border-top: 1px solid #444;
 }
 
 /* --- Responsive Adjustments (Mobile/Tablet) --- */
