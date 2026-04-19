@@ -1,3 +1,11 @@
+@media (max-width: 800px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Stacks them on mobile */
+    }
+    .algo-card {
+        height: 350px;
+    }
+}
 /* The main 4-way grid */
 .grid-container {
     display: grid;
