@@ -1,6 +1,7 @@
 import { state, wait, render } from '../controller.js';
 
 export async function heapSort(arr, id) {
+    if (state.isResetting) return;
     let n = arr.length;
     for (let i = Math.floor(n / 2) - 1; i >= 0; i--) await heapify(arr, n, i, id);
     for (let i = n - 1; i > 0; i--) {
@@ -12,6 +13,7 @@ export async function heapSort(arr, id) {
 }
 
 export async function heapify(arr, n, i, id) {
+    if (state.isResetting) return;
     let largest = i;
     let l = 2 * i + 1;
     let r = 2 * i + 2;
