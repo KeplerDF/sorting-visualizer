@@ -27,6 +27,26 @@
         width: 100%; /* Full width sliders are easier to slide with a thumb */
     }
 }
+@media (max-width: 600px) {
+    .controls {
+        position: sticky;
+        bottom: 0;
+        background: #222;
+        padding: 10px;
+        z-index: 100;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two buttons per row */
+    }
+    .bar {
+        margin: 0; /* Remove gaps on mobile to make colors look like a solid block */
+        border-radius: 0; 
+    }
+    
+    .grid-container {
+        gap: 20px; /* More space between the cards themselves */
+    }
+}
 /* Prevent accidental zooming when tapping buttons quickly */
 button {
     touch-action: manipulation;
