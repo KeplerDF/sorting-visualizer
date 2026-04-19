@@ -1,4 +1,5 @@
 import { state, wait, render } from '../controller.js';
+import { playNote } from '../audio.js';
 
 export async function quickSort(arr, left, right, containerId) {
     if (state.isResetting) return;
@@ -20,6 +21,7 @@ export async function partition(arr, left, right, containerId) {
     for (let j = left; j <= right - 1; j++) {
         // Highlight current bar (j), pivot (right), and i
         render(arr, containerId, [j, right, i]);
+        playNote(arr[j], 'square');
         await wait();
 
         if (arr[j] < pivot) {
