@@ -5,7 +5,7 @@ import { heapSort } from './algos/heapsort.js';
 
 import { state, wait, render } from './controller.js';
 import { toggleMute } from './audio.js';
-
+ 
 let masterArray = [];
 let isRunning = false; 
 
