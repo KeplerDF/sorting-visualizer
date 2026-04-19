@@ -37,7 +37,9 @@ window.triggerStep = function() {
 
 window.startRace = async function() {
     if (isRunning) return; 
+    state.isResetting = false;
     isRunning = true;
+
     generateNewArray();
     
     document.getElementById('status').innerText = "Status: Running";
@@ -93,7 +95,7 @@ window.resetRace = function() {
     state.isResetting = true
     
     // 2. Refresh the UI status
-    document.getElementById('status').innerText = "Paused";
+    document.getElementById('status').innerText = "Reset Complete";
     document.getElementById('startBtn').innerText = "Pause";
     document.getElementById('stepBtn').disabled = true;
 
@@ -104,4 +106,9 @@ window.resetRace = function() {
 
 window.addEventListener('DOMContentLoaded', () => {
     generateNewArray();
+});
+
+document.getElementById('speed').addEventListener('input', (e) => {
+    // Invert the value so higher slider = faster speed (lower delay)
+    state.delay = 501 - e.target.value; 
 });
