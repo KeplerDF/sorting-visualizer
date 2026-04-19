@@ -71,7 +71,7 @@ window.resetRace = function() {
     
     // 2. Refresh the UI status
     document.getElementById('status').innerText = "Paused";
-    document.getElementById('startBtn').innerText = "Resume";
+    document.getElementById('startBtn').innerText = "Pause";
     document.getElementById('stepBtn').disabled = true;
 
     // 3. Generate a brand new array and re-render all containers
