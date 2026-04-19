@@ -16,29 +16,28 @@
     margin: 0 auto;
 }
 .algo-card {
-    background: #222; /* Dark theme looks better for visualizers */
-    color: white;
-    border-radius: 8px;
-    padding: 15px;
-    height: 400px; /* Constrains the height so no scrolling is needed */
+    /* Keep cards contained so they don't grow too large */
     display: flex;
     flex-direction: column;
+    height: 350px; 
+    margin-bottom: 10px;
 }
 .bar-container {
-    display: flex;
-    align-items: flex-end; /* Bars grow from bottom up */
-    justify-content: center;
-    flex-grow: 1; /* Takes up available space in the card */
-    background: #111;
-    border: 1px solid #444;
+    display: flex;            /* Aligns children (bars) horizontally */
+    align-items: flex-end;    /* Aligns bars to the bottom of the container */
+    justify-content: center;  /* Centers the bars horizontally */
+    height: 200px;            /* Fixed height for the chart area */
+    width: 100%;              /* Uses full width of the card */
+    background-color: #1a1a1a;/* Dark background makes colors pop */
+    border-radius: 4px;
     padding: 5px;
-    overflow: hidden;
+    gap: 1px;                 /* Tiny gap between bars */
+    overflow: hidden;         /* Prevents bars from spilling out */
 }
 .bar {
-    background-color: #3498db; /* The blue color for bars */
-    margin: 0 1px; /* Small gap between bars */
-    flex: 1; /* Evenly distributes width */
-    transition: background-color 0.1s; /* Smooth color changes */
+    background-color: #3498db;
+    flex: 1;                  /* Forces all bars to share width equally */
+    transition: height 0.1s ease; /* Makes the movement look fluid */
 }
 /* Make the code view smaller and scrollable within the card */
 .code-view {
