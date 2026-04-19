@@ -20,3 +20,20 @@
     background: #3498db;
     flex: 1;
 }
+.code-view {
+    background: #282c34;
+    color: #abb2bf;
+    padding: 10px;
+    font-size: 0.8rem;
+    text-align: left;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.line-highlight {
+    background-color: #3e4451;
+    color: #61afef;
+    display: block;
+    width: 100%;
+}
