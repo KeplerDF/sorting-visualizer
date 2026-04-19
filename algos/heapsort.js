@@ -10,19 +10,19 @@ export async function heapSort(arr, containerId) {
         [arr[0], arr[i]] = [arr[i], arr[0]];
         render(arr, containerId);
         playNote(arr[i], 'sawtooth');
-        await wait(); 
         await heapify(arr, i, 0, containerId);
     }
 }
 
 export async function heapify(arr, n, i, containerId) {
+    let mySteps = { count: state.stepCount };
     let largest = i;
     let l = 2 * i + 1;
     let r = 2 * i + 2;
 
     // Highlight parent and potential children
     render(arr, containerId, [i, l, r]);
-    await wait();
+    await wait(mySteps);
 
     if (l < n && arr[l] > arr[largest]) largest = l;
     if (r < n && arr[r] > arr[largest]) largest = r;
@@ -31,7 +31,7 @@ export async function heapify(arr, n, i, containerId) {
         if (state.isResetting) return;
         [arr[i], arr[largest]] = [arr[largest], arr[i]];
         render(arr, containerId, [i, largest]);
-        await wait();
+        await wait(mySteps);
         await heapify(arr, n, largest, containerId);
     }
 }
