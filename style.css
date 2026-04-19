@@ -117,6 +117,7 @@ input[type="range"] {
     font-size: 0.7rem;
     font-family: monospace;
     border-top: 1px solid #444;
+    white-space: pre-wrap;
 }
 
 /* --- Responsive Adjustments (Mobile/Tablet) --- */
