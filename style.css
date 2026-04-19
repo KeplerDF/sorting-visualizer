@@ -23,22 +23,21 @@
     margin-bottom: 10px;
 }
 .bar-container {
-    display: flex;            /* Aligns children (bars) horizontally */
-    align-items: flex-end;    /* Aligns bars to the bottom of the container */
-    justify-content: center;  /* Centers the bars horizontally */
-    height: 200px;            /* Fixed height for the chart area */
-    width: 100%;              /* Uses full width of the card */
-    background-color: #1a1a1a;/* Dark background makes colors pop */
-    border-radius: 4px;
+    display: flex !important;   /* Force flexbox layout */
+    flex-direction: row;        /* Ensure they go left-to-right */
+    align-items: flex-end;      /* Stick bars to the bottom */
+    height: 200px;              /* Must have a height for % to work */
+    width: 100%;                /* Take up full card width */
+    background: #111;           /* Dark background to see the bars */
+    gap: 1px;                   /* Space between bars */
     padding: 5px;
-    gap: 1px;                 /* Tiny gap between bars */
-    overflow: hidden;         /* Prevents bars from spilling out */
+    box-sizing: border-box;
 }
 .bar {
-    border: 1px solid rgba(255,255,255,0.1);
-    background-color: #3498db;
-    flex: 1;                  /* Forces all bars to share width equally */
-    transition: height 0.1s ease; /* Makes the movement look fluid */
+    background-color: #3498db;  /* The blue color */
+    flex: 1;                    /* Forces bars to share horizontal space */
+    /* DO NOT set 'display: block' here */
+    /* DO NOT set 'width: 100%' here */
 }
 /* Make the code view smaller and scrollable within the card */
 .code-view {
