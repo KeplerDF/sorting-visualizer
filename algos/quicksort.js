@@ -12,13 +12,13 @@ export async function quickSort(arr, left, right, containerId) {
 }
 
 export async function partition(arr, left, right, containerId) {
-    if (state.isResetting) return;
     
     // Change 'high' to 'right' and 'low' to 'left'
     let pivot = arr[right]; 
     let i = left - 1;
 
     for (let j = left; j <= right - 1; j++) {
+        if (state.isResetting) return;
         // Highlight current bar (j), pivot (right), and i
         render(arr, containerId, [j, right, i]);
         playNote(arr[j], 'square');
