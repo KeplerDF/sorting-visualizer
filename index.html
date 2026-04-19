@@ -1,34 +1,40 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorting Visualizer</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<div class="controls">
-    <button id="muteBtn" onclick="handleMute()">🔊 Mute</button>
-    <button onclick="startRace()">Start Race</button>
-    <input type="range" id="speed" min="1" max="100" value="50">
-</div>
-<div class="grid-container">
-    <div class="algo-card"><h3>Bubble Sort</h3><div id="bubble-container" class="bar-container"></div></div>
-    <div class="algo-card"><h3>Quick Sort</h3><div id="quick-container" class="bar-container"></div></div>
-    <div class="algo-card">
-    <h3>Merge Sort</h3>
-    <div id="merge-container" class="bar-container"></div>
-    <pre class="code-view" id="merge-code">
-        <span id="merge-l1">void mergeSort(arr, left, right) {</span>
-        ...
-    </pre>
-</div>
-    <div class="algo-card"><h3>Heap Sort</h3><div id="heap-container" class="bar-container"></div></div>
-</div>
-<div class="controls">
-    <button id="startBtn" onclick="togglePlay()">Pause</button>
-    <button id="stepBtn" onclick="triggerStep()" disabled>Step Forward</button>
-    <button onclick="resetRace()">Reset</button>
-    <span>Speed: </span>
-    <input type="range" id="speed" min="1" max="500" value="100">
-    <div id="status">Status: Ready</div>
-</div>
-<script type="module" src="main.js"></script>
+<body>
+    <div class="controls">
+        <button id="muteBtn" onclick="handleMute()">🔊 Mute</button>
+        <button onclick="startRace()">Start Race</button>
+        <button id="startBtn" onclick="togglePlay()">Pause</button>
+        <button id="stepBtn" onclick="triggerStep()" disabled>Step Forward</button>
+        <button onclick="resetRace()">Reset</button>
+        
+        <div class="slider-group">
+            <span>Speed: </span>
+            <input type="range" id="speed" min="1" max="200" value="100">
+        </div>
+        
+        <div id="status">Status: Ready</div>
+    </div>
+
+    <div class="grid-container">
+        <div class="algo-card"><h3>Bubble Sort</h3><div id="bubble-container" class="bar-container"></div></div>
+        <div class="algo-card"><h3>Quick Sort</h3><div id="quick-container" class="bar-container"></div></div>
+        <div class="algo-card">
+            <h3>Merge Sort</h3>
+            <div id="merge-container" class="bar-container"></div>
+            <pre class="code-view" id="merge-code">
+                <span id="merge-l1">void mergeSort(arr, left, right) { ... }</span>
+            </pre>
+        </div>
+        <div class="algo-card"><h3>Heap Sort</h3><div id="heap-container" class="bar-container"></div></div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
