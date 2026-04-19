@@ -1,3 +1,6 @@
+import { render } from '../main.js';
+import { state, wait } from '../controller.js';
+
 export async function quickSort(arr, left, right, id) {
     if (left >= right) return;
     let index = await partition(arr, left, right, id);
