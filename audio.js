@@ -1,4 +1,4 @@
-export const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioCtx = null;
 let isMuted = false;
 
 export function toggleMute() {
@@ -8,23 +8,30 @@ export function toggleMute() {
 
 export function playNote(value, type = 'sine') {
     if (isMuted) return;
+    
+    // Create the context ONLY when needed (lazy loading)
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    // Wake it up if it was suspended (mobile/browser safety)
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
 
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
 
     oscillator.type = type;
-    
-    // Map value (0-100) to frequency (200Hz to 1000Hz)
-    const freq = 200 + (value * 8);
+    const freq = 100 + (value * 5); // Slightly lower range for comfort
     oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
-    // Create a "chime" effect with a quick fade-out
-    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.1);
+    gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.05);
 
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
 
     oscillator.start();
-    oscillator.stop(audioCtx.currentTime + 0.1);
+    oscillator.stop(audioCtx.currentTime + 0.05);
 }
