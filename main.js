@@ -4,7 +4,7 @@ import { mergeSort } from './algos/mergesort.js';
 import { heapSort } from './algos/heapsort.js';
 
 import { state, wait, render } from './controller.js';
-import { toggleMute } from './audio.js';
+import { toggleMute, playNote, playSuccessArpeggio } from './audio.js';
  
 let masterArray = [];
 let isRunning = false; 
