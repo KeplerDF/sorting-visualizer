@@ -28,10 +28,18 @@
         <div class="algo-card">
             <h3>Merge Sort</h3>
             <div id="merge-container" class="bar-container"></div>
-            <pre class="code-view" id="merge-code">
-                <span id="merge-l1">void mergeSort(arr, left, right) { ... }</span>
-            </pre>
+            <div class="code-wrapper">
+                <pre class="code-view" id="merge-code">
+        <span id="merge-l1">void mergeSort(arr, left, right) {</span>
+            if (left >= right) return;
+            int mid = left + (right - left) / 2;
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+            merge(arr, left, mid, right);
+        <span>}</span>
+                </pre>
         </div>
+    </div>
         <div class="algo-card"><h3>Heap Sort</h3><div id="heap-container" class="bar-container"></div></div>
     </div>
 
