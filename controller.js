@@ -18,20 +18,19 @@ export async function wait() {
 export function render(array, containerId, activeIndices = []) {
     const container = document.getElementById(containerId);
     if (!container) return;
-
-    container.innerHTML = ''; // Clear the vertical list
-
+    
+    container.innerHTML = '';
     array.forEach((val, idx) => {
         const bar = document.createElement('div');
         bar.className = 'bar';
         
-        // Height is a percentage of the 200px container
+        // Ensure val is a number between 1 and 100
         bar.style.height = `${val}%`; 
-
+        
         if (activeIndices.includes(idx)) {
-            bar.style.backgroundColor = "#e74c3c"; // Red for current action
+            bar.style.backgroundColor = "#e74c3c"; // Red
         }
-
+        
         container.appendChild(bar);
     });
 }
