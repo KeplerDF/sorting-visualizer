@@ -2,54 +2,79 @@ import { state, wait, render } from '../controller.js';
 import { highlightLine } from '../main.js';
 import { playNote } from '../audio.js';
 
-export async function mergeSort(arr, left, right, containerId) {
+export async function mergeSort(arr, left, right, containerId, mySteps) {
     if (state.isResetting) return;
+    
+    // 2. Initialize tracker ONLY on the very first call
+    if (!mySteps) {
+        mySteps = { count: state.stepCount };
+    }
+
     const prefix = "merge";
     
     highlightLine(prefix, 2);
-    if (state.isResetting ||left >= right) return; // Check for reset
+    if (left >= right) return; 
 
     highlightLine(prefix, 3);
     let mid = Math.floor((left + right) / 2);
 
-    highlightLine(prefix, 4); // Recursive call for left half
-    await mergeSort(arr, left, mid, containerId);
+    highlightLine(prefix, 4); 
+    // 3. Pass mySteps into recursion
+    await mergeSort(arr, left, mid, containerId, mySteps);
 
-    highlightLine(prefix, 5); // Recursive call for right half
-    await mergeSort(arr, mid + 1, right, containerId);
-    if (state.isResetting) return;  // Check for reset
-    highlightLine(prefix, 6); // The actual merging happens here
-    await merge(arr, left, mid, right, containerId);
+    highlightLine(prefix, 5); 
+    await mergeSort(arr, mid + 1, right, containerId, mySteps);
+    
+    if (state.isResetting) return; 
+    
+    highlightLine(prefix, 6); 
+    // 4. Pass mySteps into the merge helper
+    await merge(arr, left, mid, right, containerId, mySteps);
     
     highlightLine(prefix, 7);
 }
 
-export async function merge(arr, start, mid, end, containerId) {
+async function merge(arr, start, mid, end, containerId, mySteps) {
     let leftPart = arr.slice(start, mid + 1);
     let rightPart = arr.slice(mid + 1, end + 1);
 
-    let mySteps = { count: state.stepCount };
     let i = 0, j = 0, k = start;
 
+    // Main comparison loop
     while (i < leftPart.length && j < rightPart.length) {
         if (state.isResetting) return;
-        // Highlight the two bars being compared in the UI
+
+        // Visual feedback
         render(arr, containerId, [start + i, mid + 1 + j]); 
-        playNote(arr[j], 'triangle');
+        playNote(leftPart[i], 'triangle'); // Use leftPart[i] for accurate frequency
 
         if (leftPart[i] <= rightPart[j]) {
             arr[k] = leftPart[i++];
         } else {
             arr[k] = rightPart[j++];
         }
+        
         k++;
-        render(arr, containerId); // Update UI to show the new value in the main array
+        render(arr, containerId, [k-1]); // Render the placement
+        await wait(mySteps); // Pause here
+    }
+
+    // 5. Cleaned up remaining element loops
+    while (i < leftPart.length) {
+        if (state.isResetting) return;
+        arr[k] = leftPart[i++];
+        render(arr, containerId, [k]);
+        playNote(arr[k], 'triangle');
+        k++;
         await wait(mySteps);
     }
 
-    // Copy remaining elements
-    while (i < leftPart.length) {await wait(mySteps); arr[k++] = leftPart[i++];}
-    while (j < rightPart.length) {await wait(mySteps); arr[k++] = rightPart[j++];}
-    
-    render(arr, containerId);
+    while (j < rightPart.length) {
+        if (state.isResetting) return;
+        arr[k] = rightPart[j++];
+        render(arr, containerId, [k]);
+        playNote(arr[k], 'triangle');
+        k++;
+        await wait(mySteps);
+    }
 }
