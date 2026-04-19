@@ -23,24 +23,70 @@
     </div>
 
     <div class="grid-container">
-        <div class="algo-card"><h3>Bubble Sort</h3><div id="bubble-container" class="bar-container"></div></div>
-        <div class="algo-card"><h3>Quick Sort</h3><div id="quick-container" class="bar-container"></div></div>
+        <div class="algo-card">
+            <h3>Bubble Sort</h3>
+            <div id="bubble-container" class="bar-container"></div>
+            <div class="code-wrapper">
+                <pre class="code-view" id="bubble-code">
+for (i from 0 to n-1) {
+  for (j from 0 to n-i-1) {
+    if (arr[j] > arr[j+1]) {
+      swap(arr[j], arr[j+1]);
+    }
+  }
+}
+                </pre>
+            </div>
+        </div>
+
+        <div class="algo-card">
+            <h3>Quick Sort</h3>
+            <div id="quick-container" class="bar-container"></div>
+            <div class="code-wrapper">
+                <pre class="code-view" id="quick-code">
+quickSort(arr, low, high) {
+  if (low < high) {
+    p = partition(arr, low, high);
+    quickSort(arr, low, p - 1);
+    quickSort(arr, p + 1, high);
+  }
+}
+                </pre>
+            </div>
+        </div>
+
         <div class="algo-card">
             <h3>Merge Sort</h3>
             <div id="merge-container" class="bar-container"></div>
             <div class="code-wrapper">
                 <pre class="code-view" id="merge-code">
-        <span id="merge-l1">void mergeSort(arr, left, right) {</span>
-            if (left >= right) return;
-            int mid = left + (right - left) / 2;
-            mergeSort(arr, left, mid);
-            mergeSort(arr, mid + 1, right);
-            merge(arr, left, mid, right);
-        <span>}</span>
+mergeSort(arr, l, r) {
+  if (l < r) {
+    m = l + (r - l) / 2;
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+    merge(arr, l, m, r);
+  }
+}
                 </pre>
+            </div>
         </div>
-    </div>
-        <div class="algo-card"><h3>Heap Sort</h3><div id="heap-container" class="bar-container"></div></div>
+
+        <div class="algo-card">
+            <h3>Heap Sort</h3>
+            <div id="heap-container" class="bar-container"></div>
+            <div class="code-wrapper">
+                <pre class="code-view" id="heap-code">
+heapSort(arr) {
+  buildMaxHeap(arr);
+  for (i from n-1 to 0) {
+    swap(arr[0], arr[i]);
+    heapify(arr, i, 0);
+  }
+}
+                </pre>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="main.js"></script>
