@@ -1,0 +1,18 @@
+<div class="controls">
+    <button onclick="startRace()">Start Race</button>
+    <input type="range" id="speed" min="1" max="100" value="50">
+</div>
+<div class="grid-container">
+    <div class="algo-card"><h3>Bubble Sort</h3><div id="bubble-container" class="bar-container"></div></div>
+    <div class="algo-card"><h3>Quick Sort</h3><div id="quick-container" class="bar-container"></div></div>
+    <div class="algo-card"><h3>Merge Sort</h3><div id="merge-container" class="bar-container"></div></div>
+    <div class="algo-card"><h3>Heap Sort</h3><div id="heap-container" class="bar-container"></div></div>
+</div>
+<div class="controls">
+    <button id="startBtn" onclick="togglePlay()">Pause</button>
+    <button id="stepBtn" onclick="triggerStep()" disabled>Step Forward</button>
+    <button onclick="resetRace()">Reset</button>
+    <span>Speed: </span>
+    <input type="range" id="speed" min="1" max="500" value="100">
+    <div id="status">Status: Ready</div>
+</div>
