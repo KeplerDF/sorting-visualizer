@@ -31,17 +31,24 @@ window.triggerStep = function() {
 window.startRace = async function() {
     if (isRunning) return; 
     isRunning = true;
-    
     generateNewArray();
     
     document.getElementById('status').innerText = "Status: Running";
     
-    // Start all algorithms simultaneously
+    // Wrapped each call in an anonymous function so it can 
+    // trigger the "Green" render as soon as THAT specific one ends.
     await Promise.all([
-        bubbleSort([...masterArray], "bubble-container"),
-        quickSort([...masterArray], 0, masterArray.length - 1, "quick-container"),
-        mergeSort([...masterArray], 0, masterArray.length - 1, "merge-container"),
-        heapSort([...masterArray], "heap-container")
+        bubbleSort([...masterArray], "bubble-container").then(() => 
+            render(masterArray, "bubble-container", [], true)),
+            
+        quickSort([...masterArray], 0, masterArray.length - 1, "quick-container").then(() => 
+            render(masterArray, "quick-container", [], true)),
+            
+        mergeSort([...masterArray], 0, masterArray.length - 1, "merge-container").then(() => 
+            render(masterArray, "merge-container", [], true)),
+            
+        heapSort([...masterArray], "heap-container").then(() => 
+            render(masterArray, "heap-container", [], true))
     ]);
     
     isRunning = false;
