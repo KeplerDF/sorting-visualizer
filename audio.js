@@ -36,7 +36,7 @@ export function playNote(value, type = 'sine') {
     oscillator.stop(audioCtx.currentTime + 0.05);
 }
 
-export function playSuccessArpeggio() {
+export function playSuccessArpeggio(type = 'triangle') {
     if (isMuted) return;
 
     // A simple Major chord arpeggio (C - E - G - C)
@@ -45,7 +45,7 @@ export function playSuccessArpeggio() {
     notes.forEach((note, index) => {
         // Schedule each note to play 0.07 seconds after the previous one
         setTimeout(() => {
-            playNote(note, 'triangle'); 
+            playNote(note, type); 
         }, index * 70); 
     });
 }
