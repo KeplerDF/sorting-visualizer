@@ -1,4 +1,5 @@
 import { state, wait, render } from '../controller.js';
+import { highlightLine } from '../main.js';
 
 export async function mergeSort(arr, left, right, id) {
     const prefix = "merge";
