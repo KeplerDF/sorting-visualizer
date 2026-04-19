@@ -12,12 +12,14 @@ export async function quickSort(arr, left, right, containerId) {
 
 export async function partition(arr, left, right, containerId) {
     if (state.isResetting) return;
-    let pivot = arr[high];
-    let i = low - 1;
+    
+    // Change 'high' to 'right' and 'low' to 'left'
+    let pivot = arr[right]; 
+    let i = left - 1;
 
-    for (let j = low; j <= high - 1; j++) {
-        // Highlight current bar (j) and the pivot (high)
-        render(arr, containerId, [j, high, i]);
+    for (let j = left; j <= right - 1; j++) {
+        // Highlight current bar (j), pivot (right), and i
+        render(arr, containerId, [j, right, i]);
         await wait();
 
         if (arr[j] < pivot) {
@@ -25,7 +27,8 @@ export async function partition(arr, left, right, containerId) {
             [arr[i], arr[j]] = [arr[j], arr[i]];
         }
     }
-    [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+    // Swap pivot into correct place
+    [arr[i + 1], arr[right]] = [arr[right], arr[i + 1]];
     render(arr, containerId, [i + 1]);
     return i + 1;
 }
