@@ -1,5 +1,4 @@
-import { render } from '../main.js';
-import { state, wait } from '../controller.js';
+import { state, wait, render } from '../controller.js';
 
 export async function quickSort(arr, left, right, id) {
     if (left >= right) return;
