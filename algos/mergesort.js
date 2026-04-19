@@ -27,7 +27,8 @@ export async function mergeSort(arr, left, right, containerId) {
 export async function merge(arr, start, mid, end, containerId) {
     let leftPart = arr.slice(start, mid + 1);
     let rightPart = arr.slice(mid + 1, end + 1);
-    
+
+    let mySteps = { count: state.stepCount };
     let i = 0, j = 0, k = start;
 
     while (i < leftPart.length && j < rightPart.length) {
@@ -41,14 +42,14 @@ export async function merge(arr, start, mid, end, containerId) {
         } else {
             arr[k] = rightPart[j++];
         }
-        await wait();
+        await wait(mySteps);
         k++;
         render(arr, containerId); // Update UI to show the new value in the main array
     }
 
     // Copy remaining elements
-    while (i < leftPart.length) {await wait(); arr[k++] = leftPart[i++];}
-    while (j < rightPart.length) {await wait(); arr[k++] = rightPart[j++];}
+    while (i < leftPart.length) {await wait(mySteps); arr[k++] = leftPart[i++];}
+    while (j < rightPart.length) {await wait(mySteps); arr[k++] = rightPart[j++];}
     
     render(arr, containerId);
 }
