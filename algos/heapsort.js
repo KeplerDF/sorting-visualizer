@@ -17,12 +17,17 @@ export async function heapify(arr, n, i, id) {
     let largest = i;
     let l = 2 * i + 1;
     let r = 2 * i + 2;
+
+    // Highlight parent and potential children
+    render(arr, containerId, [i, l, r]);
+    await wait();
+
     if (l < n && arr[l] > arr[largest]) largest = l;
     if (r < n && arr[r] > arr[largest]) largest = r;
-    if (largest != i) {
+
+    if (largest !== i) {
         [arr[i], arr[largest]] = [arr[largest], arr[i]];
-        render(arr, id);
-        await wait();
-        await heapify(arr, n, largest, id);
+        render(arr, containerId, [i, largest]);
+        await heapify(arr, n, largest, containerId);
     }
 }
