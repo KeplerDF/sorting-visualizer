@@ -1,7 +1,5 @@
 // A helper to control animation speed
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-let isPaused = false;
-let stepRequested = false;
 let masterArray = [];
 let isRunning = false;
 
@@ -10,12 +8,6 @@ function togglePlay() {
     document.getElementById('startBtn').innerText = isPaused ? "Resume" : "Pause";
     document.getElementById('stepBtn').disabled = !isPaused;
     document.getElementById('status').innerText = isPaused ? "Status: Paused" : "Status: Running";
-}
-
-function triggerStep() {
-    if (isPaused) {
-        stepRequested = true;
-    }
 }
 
 async function startTandemSort() {
@@ -48,23 +40,6 @@ function render(array, containerId, activeIndices = []) {
         
         container.appendChild(bar);
     });
-}
-
-async function wait() {
-    const speed = document.getElementById('speed').value;
-    
-    // If paused, stay in this loop
-    while (isPaused && !stepRequested) {
-        await new Promise(resolve => setTimeout(resolve, 50)); // Check every 50ms
-    }
-    
-    // Reset step flag after one pulse
-    stepRequested = false;
-    
-    // Normal animation delay
-    if (!isPaused) {
-        await new Promise(resolve => setTimeout(resolve, 501 - speed));
-    }
 }
 
 function generateNewArray(size = 50) {
