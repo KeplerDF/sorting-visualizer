@@ -48,7 +48,7 @@ window.startRace = async function() {
     document.getElementById('status').innerText = "Status: Finished!";
 };
 
-function generateNewArray(size = 50) {
+function generateNewArray(size = 40) {
     console.log("Generating array..."); // This means main.js isn't running
     masterArray = Array.from({length: size}, () => Math.floor(Math.random() * 100));
     render(masterArray, "bubble-container");
