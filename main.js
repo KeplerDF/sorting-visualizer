@@ -1,4 +1,8 @@
-// A helper to control animation speed
+import { bubbleSort } from './algos/bubblesort.js';
+import { quickSort } from './algos/quicksort.js';
+import { mergeSort } from './algos/mergesort.js';
+import { heapSort } from './algos/heapsort.js';
+
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 let masterArray = [];
 let isRunning = false;
