@@ -1,4 +1,4 @@
-async function mergeSort(arr, left, right, id) {
+export async function mergeSort(arr, left, right, id) {
     const prefix = "merge";
     
     highlightLine(prefix, 2);
@@ -19,7 +19,7 @@ async function mergeSort(arr, left, right, id) {
     highlightLine(prefix, 7);
 }
 
-async function merge(arr, start, mid, end, id) {
+export async function merge(arr, start, mid, end, id) {
     let leftPart = arr.slice(start, mid + 1);
     let rightPart = arr.slice(mid + 1, end + 1);
     
