@@ -16,13 +16,14 @@ export async function partition(arr, left, right, containerId) {
     // Change 'high' to 'right' and 'low' to 'left'
     let pivot = arr[right]; 
     let i = left - 1;
+    let mySteps = { count: state.stepCount };
 
     for (let j = left; j <= right - 1; j++) {
         if (state.isResetting) return;
         // Highlight current bar (j), pivot (right), and i
         render(arr, containerId, [j, right, i]);
         playNote(arr[j], 'square');
-        await wait();
+        await wait(mySteps);
 
         if (arr[j] < pivot) {
             i++;
