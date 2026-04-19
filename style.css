@@ -1,52 +1,35 @@
-/* Responsive Grid: Stacks cards on mobile */
-@media (max-width: 768px) {
-    .grid-container {
-        grid-template-columns: 1fr !important; /* One card per row */
-        gap: 10px;
-        padding: 5px;
-    }
-
-    .algo-card {
-        height: 300px !important; /* Slightly shorter for mobile screens */
-        padding: 10px;
-    }
-
-    .controls {
-        flex-wrap: wrap; /* Allows buttons to wrap to a second line if they don't fit */
-        justify-content: center;
-        gap: 8px;
-    }
-
-    button {
-        padding: 12px 15px; /* Bigger "tap targets" for fingers */
-        font-size: 14px;
-        flex: 1 1 40%; /* Buttons grow to fill space in pairs */
-    }
-
-    input[type="range"] {
-        width: 100%; /* Full width sliders are easier to slide with a thumb */
-    }
+/* --- Global & Base Styles --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #1a1a1a;
+    color: white;
 }
-@media (max-width: 600px) {
-    .controls {
-        position: sticky;
-        bottom: 0;
-        background: #222;
-        padding: 10px;
-        z-index: 100;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Two buttons per row */
-    }
-    .bar {
-        margin: 0; /* Remove gaps on mobile to make colors look like a solid block */
-        border-radius: 0; 
-    }
-    
-    .grid-container {
-        gap: 20px; /* More space between the cards themselves */
-    }
+
+button {
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: none;
+    background: #3498db;
+    color: white;
+    font-weight: bold;
+    transition: background 0.2s;
 }
+
+button:hover {
+    background: #2980b9;
+}
+
+button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+/* --- Navigation / Controls --- */
 .controls {
     display: flex;
     flex-wrap: wrap;
@@ -55,10 +38,10 @@
     gap: 15px;
     padding: 20px;
     background: #2c3e50;
-    color: white;
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .slider-group {
@@ -67,77 +50,105 @@
     gap: 10px;
 }
 
-/* Ensure the slider is easy to grab */
 input[type="range"] {
     cursor: pointer;
     width: 150px;
 }
 
-/* Prevent accidental zooming when tapping buttons quickly */
-button {
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* Ensure text doesn't get tiny on mobile */
-h3 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-}
-
-/* Make the scrollable code view easier to swipe */
-.code-view {
-    -webkit-overflow-scrolling: touch;
-    font-size: 0.8rem; /* Slightly larger text for small screens */
-}
-
-/* The main 4-way grid */
+/* --- Main Dashboard Grid --- */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Force 2x2 grid */
-    gap: 15px;
-    padding: 10px;
-    max-width: 1200px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
     margin: 0 auto;
 }
+
 .algo-card {
-    display: flex !important;
-    flex-direction: column !important;
-    
-    min-height: 350px !important; 
+    display: flex;
+    flex-direction: column;
     height: 450px;
-    
     background: #222;
     padding: 15px;
     border: 2px solid #444;
     border-radius: 8px;
-}
-.bar-container {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-end !important;
-    
-    /* FIX: This forces the container to take up all available 
-       space in the 350px card after the title is drawn */
-    flex-grow: 1 !important; 
-    
-    width: 100%;
-    background-color: #111;
-    margin-top: 10px;
-    padding: 5px;
     box-sizing: border-box;
 }
+
+.algo-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #ecf0f1;
+}
+
+/* --- Visualizer Bars --- */
+.bar-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    flex-grow: 1;
+    width: 100%;
+    background-color: #111;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
 .bar {
     flex: 1;
     margin: 0 1px;
     transition: height 0.05s ease, background-color 0.2s ease;
 }
-/* Make the code view smaller and scrollable within the card */
+
+/* --- Code Snippet View --- */
 .code-view {
     height: 120px;
     overflow-y: auto;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     background: #000;
     margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* --- Responsive Adjustments (Mobile/Tablet) --- */
+
+@media (max-width: 900px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Stack cards vertically */
+    }
+}
+
+@media (max-width: 600px) {
+    .controls {
+        padding: 10px;
+        gap: 8px;
+        /* could move to bottom for thumb-reach on mobile */
+    }
+
+    .controls button {
+        flex: 1 1 40%;
+        padding: 12px 5px;
+        font-size: 0.8rem;
+    }
+
+    .slider-group {
+        width: 100%;
+        justify-content: center;
+    }
+
+    input[type="range"] {
+        width: 100%;
+    }
+
+    .algo-card {
+        height: 350px;
+    }
+
+    .bar {
+        margin: 0; /* Solid wall of color on small screens */
+    }
 }
