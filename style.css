@@ -1,8 +1,51 @@
-@media (max-width: 800px) {
+/* Responsive Grid: Stacks cards on mobile */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr !important; /* One card per row */
+        gap: 10px;
+        padding: 5px;
+    }
+
     .algo-card {
-        height: 350px;
+        height: 300px !important; /* Slightly shorter for mobile screens */
+        padding: 10px;
+    }
+
+    .controls {
+        flex-wrap: wrap; /* Allows buttons to wrap to a second line if they don't fit */
+        justify-content: center;
+        gap: 8px;
+    }
+
+    button {
+        padding: 12px 15px; /* Bigger "tap targets" for fingers */
+        font-size: 14px;
+        flex: 1 1 40%; /* Buttons grow to fill space in pairs */
+    }
+
+    input[type="range"] {
+        width: 100%; /* Full width sliders are easier to slide with a thumb */
     }
 }
+/* Prevent accidental zooming when tapping buttons quickly */
+button {
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure text doesn't get tiny on mobile */
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+/* Make the scrollable code view easier to swipe */
+.code-view {
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.8rem; /* Slightly larger text for small screens */
+}
+
 /* The main 4-way grid */
 .grid-container {
     display: grid;
