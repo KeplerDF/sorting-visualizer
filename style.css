@@ -40,10 +40,9 @@
     box-sizing: border-box;
 }
 .bar {
-    background-color: #3498db;
     flex: 1;
     margin: 0 1px;
-    transition: height 0.05s ease; /* Makes the "movement" look fluid */
+    transition: height 0.05s ease, background-color 0.2s ease;
 }
 /* Make the code view smaller and scrollable within the card */
 .code-view {
