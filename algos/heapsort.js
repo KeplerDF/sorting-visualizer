@@ -31,6 +31,7 @@ export async function heapify(arr, n, i, containerId) {
         if (state.isResetting) return;
         [arr[i], arr[largest]] = [arr[largest], arr[i]];
         render(arr, containerId, [i, largest]);
+        await wait();
         await heapify(arr, n, largest, containerId);
     }
 }
