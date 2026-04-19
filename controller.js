@@ -18,12 +18,22 @@ export async function wait() {
 export function render(array, containerId, activeIndices = []) {
     const container = document.getElementById(containerId);
     if (!container) return;
+    
     container.innerHTML = '';
     array.forEach((val, idx) => {
         const bar = document.createElement('div');
         bar.className = 'bar';
+        
+        // Use the percentage height
         bar.style.height = `${val}%`;
-        if (activeIndices.includes(idx)) bar.style.backgroundColor = "#e74c3c";
+        
+        // Highlight logic
+        if (activeIndices.includes(idx)) {
+            bar.style.backgroundColor = "#e74c3c"; // Red for active
+        } else {
+            bar.style.backgroundColor = "#3498db"; // Blue for static
+        }
+        
         container.appendChild(bar);
     });
 }
