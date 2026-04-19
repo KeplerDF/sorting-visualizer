@@ -3,19 +3,22 @@ import { playNote } from '../audio.js';
 
 export async function heapSort(arr, containerId) {
     let n = arr.length;
-    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) await heapify(arr, n, i, containerId);
-    if (state.isResetting) return;
+    let mySteps = { count: state.stepCount }; 
+
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+        await heapify(arr, n, i, containerId, mySteps); // Pass it down
+    }
+    
     for (let i = n - 1; i > 0; i--) {
         if (state.isResetting) return;
         [arr[0], arr[i]] = [arr[i], arr[0]];
         render(arr, containerId);
         playNote(arr[i], 'sawtooth');
-        await heapify(arr, i, 0, containerId);
+        await heapify(arr, i, 0, containerId, mySteps); // Pass it down
     }
 }
 
-export async function heapify(arr, n, i, containerId) {
-    let mySteps = { count: state.stepCount };
+export async function heapify(arr, n, i, containerId, mySteps) {
     let largest = i;
     let l = 2 * i + 1;
     let r = 2 * i + 2;
@@ -31,7 +34,6 @@ export async function heapify(arr, n, i, containerId) {
         if (state.isResetting) return;
         [arr[i], arr[largest]] = [arr[largest], arr[i]];
         render(arr, containerId, [i, largest]);
-        await wait(mySteps);
-        await heapify(arr, n, largest, containerId);
+        await heapify(arr, n, largest, containerId, mySteps);
     }
 }
