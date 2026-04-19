@@ -60,10 +60,11 @@ function generateNewArray(size = 40) {
 window.resetRace = function() {
     // 1. Stop any ongoing logic by updating the state
     state.isPaused = false;
+    state.isResetting = true
     
     // 2. Refresh the UI status
     document.getElementById('status').innerText = "Status: Ready";
-    document.getElementById('startBtn').innerText = "Start Race"; // Reset button text
+    document.getElementById('startBtn').innerText = "Start Race";
     document.getElementById('stepBtn').disabled = true;
 
     // 3. Generate a brand new array and re-render all containers
