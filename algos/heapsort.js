@@ -1,18 +1,18 @@
 import { state, wait, render } from '../controller.js';
 
-export async function heapSort(arr, id) {
+export async function heapSort(arr, containerId) {
     if (state.isResetting) return;
     let n = arr.length;
-    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) await heapify(arr, n, i, id);
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) await heapify(arr, n, i, containerId);
     for (let i = n - 1; i > 0; i--) {
         [arr[0], arr[i]] = [arr[i], arr[0]];
-        render(arr, id);
+        render(arr, containerId);
         await wait(); 
-        await heapify(arr, i, 0, id);
+        await heapify(arr, i, 0, containerId);
     }
 }
 
-export async function heapify(arr, n, i, id) {
+export async function heapify(arr, n, i, containerId) {
     if (state.isResetting) return;
     let largest = i;
     let l = 2 * i + 1;
