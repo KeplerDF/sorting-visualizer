@@ -1,5 +1,6 @@
 export const state = {
     isPaused: false,
+    isResetting: false,
     stepRequested: false,
     delay: 100
 };
