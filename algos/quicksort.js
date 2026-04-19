@@ -1,6 +1,7 @@
 import { state, wait, render } from '../controller.js';
 
 export async function quickSort(arr, left, right, id) {
+    if (state.isResetting) return;
     if (left >= right) return;
     let index = await partition(arr, left, right, id);
     await Promise.all([
@@ -10,6 +11,7 @@ export async function quickSort(arr, left, right, id) {
 }
 
 export async function partition(arr, left, right, id) {
+    if (state.isResetting) return;
     let pivotValue = arr[right];
     let pivotIndex = left;
     for (let i = left; i < right; i++) {
