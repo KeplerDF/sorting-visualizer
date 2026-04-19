@@ -57,6 +57,20 @@ function generateNewArray(size = 40) {
     render(masterArray, "heap-container");
 }
 
+window.resetRace = function() {
+    // 1. Stop any ongoing logic by updating the state
+    state.isPaused = false;
+    
+    // 2. Refresh the UI status
+    document.getElementById('status').innerText = "Status: Ready";
+    document.getElementById('startBtn').innerText = "Start Race"; // Reset button text
+    document.getElementById('stepBtn').disabled = true;
+
+    // 3. Generate a brand new array and re-render all containers
+    // This effectively "clears" the old sorted bars
+    generateNewArray(); 
+};
+
 window.addEventListener('DOMContentLoaded', () => {
     generateNewArray();
 });
