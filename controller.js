@@ -27,14 +27,12 @@ export function render(array, containerId, activeIndices = [], isFinished = fals
         bar.style.height = `${val}%`;
         
         if (isFinished) {
-            // All bars turn Green when the algo is done
-            bar.style.backgroundColor = "#2ecc71"; 
+            bar.style.backgroundColor = "#2ecc71"; // Solid Green
         } else if (activeIndices.includes(idx)) {
-            // Active comparison bars turn White or Red to stand out
-            bar.style.backgroundColor = "#ffffff"; 
+            // Active comparison bars turn Red to stand out
+            bar.style.backgroundColor = "#FF0000"; 
         } else {
-            // Rainbow effect: maps value (0-100) to a hue (200-300 range is nice blues/purples)
-            // Or use (val * 3.6) for a full 360-degree rainbow
+            // Rainbow effect
             const hue = val * 2.4; 
             bar.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
         }
