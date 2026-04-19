@@ -1,41 +1,42 @@
+/* The main 4-way grid */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: repeat(2, 1fr); /* Force 2x2 grid */
+    gap: 15px;
+    padding: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 .algo-card {
-    border: 2px solid #333;
-    background: #f4f4f4;
-    padding: 10px;
-    height: 300px;
+    background: #222; /* Dark theme looks better for visualizers */
+    color: white;
+    border-radius: 8px;
+    padding: 15px;
+    height: 400px; /* Constrains the height so no scrolling is needed */
+    display: flex;
+    flex-direction: column;
 }
 .bar-container {
     display: flex;
-    align-items: flex-end;
-    height: 250px; /* Essential for % height bars */
-    background: #eee; /* Light background to see if container exists */
-    border-bottom: 2px solid #333;
+    align-items: flex-end; /* Bars grow from bottom up */
+    justify-content: center;
+    flex-grow: 1; /* Takes up available space in the card */
+    background: #111;
+    border: 1px solid #444;
+    padding: 5px;
+    overflow: hidden;
 }
 .bar {
-    background-color: #3498db !important;
-    flex: 1;
-    margin: 0 1px;
-    /* Remove any height: 0 or display: none if they exist */
+    background-color: #3498db; /* The blue color for bars */
+    margin: 0 1px; /* Small gap between bars */
+    flex: 1; /* Evenly distributes width */
+    transition: background-color 0.1s; /* Smooth color changes */
 }
+/* Make the code view smaller and scrollable within the card */
 .code-view {
-    background: #282c34;
-    color: #abb2bf;
-    padding: 10px;
-    font-size: 0.8rem;
-    text-align: left;
+    height: 120px;
+    overflow-y: auto;
+    font-size: 0.7rem;
+    background: #000;
     margin-top: 10px;
-    border-radius: 5px;
-    font-family: 'Courier New', Courier, monospace;
-}
-.line-highlight {
-    background-color: #3e4451;
-    color: #61afef;
-    display: block;
-    width: 100%;
 }
