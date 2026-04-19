@@ -37,7 +37,7 @@ window.triggerStep = function() {
 
 window.startRace = async function() {
     if (isRunning) return; 
-    state.isResetting = false;
+    state.isResetting = false; 
     isRunning = true;
 
     generateNewArray();
