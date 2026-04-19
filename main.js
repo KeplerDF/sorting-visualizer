@@ -2,6 +2,7 @@
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 let isPaused = false;
 let stepRequested = false;
+let masterArray = [];
 
 function togglePlay() {
     isPaused = !isPaused;
@@ -63,4 +64,23 @@ async function wait() {
     if (!isPaused) {
         await new Promise(resolve => setTimeout(resolve, 501 - speed));
     }
+}
+
+function generateNewArray(size = 50) {
+    masterArray = Array.from({length: size}, () => Math.floor(Math.random() * 100));
+    // Render initial state for all 4 containers
+    render(masterArray, "bubble-container");
+    render(masterArray, "quick-container");
+    render(masterArray, "merge-container");
+    render(masterArray, "heap-container");
+}
+
+async function startTandemRace() {
+    // We use spread [...masterArray] to give each function a unique copy
+    const bubblePromise = bubbleSort([...masterArray], "bubble");
+    const quickPromise = quickSort([...masterArray], 0, masterArray.length - 1, "quick");
+    const mergePromise = mergeSort([...masterArray], 0, masterArray.length - 1, "merge");
+    const heapPromise = heapSort([...masterArray], "heap");
+
+    await Promise.all([bubblePromise, quickPromise, mergePromise, heapPromise]);
 }
