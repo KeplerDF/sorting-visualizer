@@ -18,9 +18,10 @@
     border-bottom: 2px solid #333;
 }
 .bar {
-    background: #3498db; /* Blue */
-    border: 1px solid white;
-    width: 100%; /* Ensure bars have width */
+    background: #3498db;
+    flex: 1; /* This makes bars expand to fill the width */
+    min-width: 2px;
+    margin: 0 1px;
 }
 .code-view {
     background: #282c34;
