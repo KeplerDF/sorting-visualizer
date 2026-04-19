@@ -18,22 +18,20 @@ export async function wait() {
 export function render(array, containerId, activeIndices = []) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    
-    container.innerHTML = '';
+
+    container.innerHTML = ''; // Clear the vertical list
+
     array.forEach((val, idx) => {
         const bar = document.createElement('div');
         bar.className = 'bar';
         
-        // Use the percentage height
-        bar.style.height = `${val}%`;
-        
-        // Highlight logic
+        // Height is a percentage of the 200px container
+        bar.style.height = `${val}%`; 
+
         if (activeIndices.includes(idx)) {
-            bar.style.backgroundColor = "#e74c3c"; // Red for active
-        } else {
-            bar.style.backgroundColor = "#3498db"; // Blue for static
+            bar.style.backgroundColor = "#e74c3c"; // Red for current action
         }
-        
+
         container.appendChild(bar);
     });
 }
