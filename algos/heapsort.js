@@ -2,9 +2,9 @@ import { state, wait, render } from '../controller.js';
 import { playNote } from '../audio.js';
 
 export async function heapSort(arr, containerId) {
-    if (state.isResetting) return;
     let n = arr.length;
     for (let i = Math.floor(n / 2) - 1; i >= 0; i--) await heapify(arr, n, i, containerId);
+    if (state.isResetting) return;
     for (let i = n - 1; i > 0; i--) {
         [arr[0], arr[i]] = [arr[i], arr[0]];
         render(arr, containerId);
@@ -15,7 +15,6 @@ export async function heapSort(arr, containerId) {
 }
 
 export async function heapify(arr, n, i, containerId) {
-    if (state.isResetting) return;
     let largest = i;
     let l = 2 * i + 1;
     let r = 2 * i + 2;
@@ -28,9 +27,9 @@ export async function heapify(arr, n, i, containerId) {
     if (r < n && arr[r] > arr[largest]) largest = r;
 
     if (largest !== i) {
-    [arr[i], arr[largest]] = [arr[largest], arr[i]];
-    render(arr, containerId, [i, largest]);
-    if (state.isResetting) return;
-    await heapify(arr, n, largest, containerId);
-}
+        if (state.isResetting) return;
+        [arr[i], arr[largest]] = [arr[largest], arr[i]];
+        render(arr, containerId, [i, largest]);
+        await heapify(arr, n, largest, containerId);
+    }
 }
