@@ -16,9 +16,8 @@
     display: flex !important;
     flex-direction: column !important;
     
-    /* FIX: The card must be large enough to see */
     min-height: 350px !important; 
-    height: 700px;
+    height: 450px;
     
     background: #222;
     padding: 15px;
