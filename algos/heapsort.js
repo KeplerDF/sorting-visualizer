@@ -1,3 +1,6 @@
+import { render } from '../main.js';
+import { state, wait } from '../controller.js';
+
 export async function heapSort(arr, id) {
     let n = arr.length;
     for (let i = Math.floor(n / 2) - 1; i >= 0; i--) await heapify(arr, n, i, id);
