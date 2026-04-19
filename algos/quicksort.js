@@ -1,4 +1,4 @@
-async function quickSort(arr, left, right, id) {
+export async function quickSort(arr, left, right, id) {
     if (left >= right) return;
     let index = await partition(arr, left, right, id);
     await Promise.all([
@@ -7,7 +7,7 @@ async function quickSort(arr, left, right, id) {
     ]);
 }
 
-async function partition(arr, left, right, id) {
+export async function partition(arr, left, right, id) {
     let pivotValue = arr[right];
     let pivotIndex = left;
     for (let i = left; i < right; i++) {
