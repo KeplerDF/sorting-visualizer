@@ -91,8 +91,9 @@ function generateNewArray(size = 40) {
 
 window.resetRace = function() {
     // 1. Stop any ongoing logic by updating the state
+    state.isResetting = true; // This is the "Stop!" signal
+    isRunning = false;        // This allows startRace to be called again
     state.isPaused = false;
-    state.isResetting = true
     
     // 2. Refresh the UI status
     document.getElementById('status').innerText = "Reset Complete";
@@ -101,7 +102,10 @@ window.resetRace = function() {
 
     // 3. Generate a brand new array and re-render all containers
     // This effectively "clears" the old sorted bars
-    generateNewArray(); 
+    setTimeout(() => {
+        generateNewArray();
+        document.getElementById('status').innerText = "Status: Reset Complete";
+    }, 50);
 };
 
 window.addEventListener('DOMContentLoaded', () => {
