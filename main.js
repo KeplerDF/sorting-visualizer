@@ -18,7 +18,6 @@ async function startTandemSort() {
     const arraySize = 50;
     const data = Array.from({length: arraySize}, () => Math.floor(Math.random() * 100));
 
-    // Initialize 4 separate instances with the same data
     const p1 = bubbleSort([...data], "canvas1");
     const p2 = quickSort([...data], "canvas2");
     const p3 = mergeSort([...data], "canvas3");
@@ -57,10 +56,10 @@ function generateNewArray(size = 50) {
 
 async function startTandemRace() {
     // We use spread [...masterArray] to give each function a unique copy
-    const bubblePromise = bubbleSort([...masterArray], "bubble");
-    const quickPromise = quickSort([...masterArray], 0, masterArray.length - 1, "quick");
-    const mergePromise = mergeSort([...masterArray], 0, masterArray.length - 1, "merge");
-    const heapPromise = heapSort([...masterArray], "heap");
+    const bubblePromise = bubbleSort([...masterArray], "bubble-container");
+    const quickPromise = quickSort([...masterArray], 0, masterArray.length - 1, "quick-container");
+    const mergePromise = mergeSort([...masterArray], 0, masterArray.length - 1, "merge-container");
+    const heapPromise = heapSort([...masterArray], "heap-container");
 
     await Promise.all([bubblePromise, quickPromise, mergePromise, heapPromise]);
 }
