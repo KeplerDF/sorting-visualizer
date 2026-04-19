@@ -5,15 +5,14 @@
 <div class="grid-container">
     <div class="algo-card"><h3>Bubble Sort</h3><div id="bubble-container" class="bar-container"></div></div>
     <div class="algo-card"><h3>Quick Sort</h3><div id="quick-container" class="bar-container"></div></div>
-    <div class="algo-card"><h3>Merge Sort</h3><div <pre class="code-view" id="merge-code">
+    <div class="algo-card">
+    <h3>Merge Sort</h3>
+    <div id="merge-container" class="bar-container"></div>
+    <pre class="code-view" id="merge-code">
         <span id="merge-l1">void mergeSort(arr, left, right) {</span>
-        <span id="merge-l2">  if (left >= right) return;</span>
-        <span id="merge-l3">  let mid = Math.floor((left + right) / 2);</span>
-        <span id="merge-l4">  await mergeSort(arr, left, mid);</span>
-        <span id="merge-l5">  await mergeSort(arr, mid + 1, right);</span>
-        <span id="merge-l6">  await merge(arr, left, mid, right);</span>
-        <span id="merge-l7">}</span>
-        </pre>></div></div>
+        ...
+    </pre>
+</div>
     <div class="algo-card"><h3>Heap Sort</h3><div id="heap-container" class="bar-container"></div></div>
 </div>
 <div class="controls">
