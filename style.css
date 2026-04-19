@@ -15,31 +15,39 @@
     max-width: 1200px;
     margin: 0 auto;
 }
-/* 1. The Card must have a fixed height */
 .algo-card {
-    display: flex;
-    flex-direction: column;
-    height: 400px !important; /* This is the anchor */
+    display: flex !important;
+    flex-direction: column !important;
+    
+    /* FIX: The card must be large enough to see */
+    min-height: 350px !important; 
+    height: 350px;
+    
     background: #222;
-    padding: 10px;
-    border: 1px solid #444;
+    padding: 15px;
+    border: 2px solid #444;
+    border-radius: 8px;
 }
 .bar-container {
     display: flex !important;
-    flex-direction: row !important; /* Forces side-by-side */
-    align-items: flex-end !important; /* Bottom-up bars */
-    height: 250px !important; /* Gives the % a pixel value to calculate against */
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    
+    /* FIX: This forces the container to take up all available 
+       space in the 350px card after the title is drawn */
+    flex-grow: 1 !important; 
+    
     width: 100%;
     background-color: #111;
-    gap: 1px;
+    margin-top: 10px;
     padding: 5px;
     box-sizing: border-box;
 }
 .bar {
-    background-color: #3498db; /* Blue */
-    flex: 1 1 0; /* This replaces 'width: 5px'. It tells bars to share the space evenly. */
-    min-width: 1px; /* Prevents them from disappearing */
-    /* Height is set by JS (e.g., 45%), but it only works because container is 250px */
+    background-color: #3498db !important;
+    flex: 1; /* Share width */
+    margin: 0 1px;
+    /* Height % now has 350px of card space to work with! */
 }
 /* Make the code view smaller and scrollable within the card */
 .code-view {
