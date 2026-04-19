@@ -31,7 +31,7 @@ window.togglePlay = function() {
 
 window.triggerStep = function() {
     if (state.isPaused) {
-        state.stepRequested = true;
+        state.stepCount++; // Incrementing this allows ALL algos to pass one wait()
     }
 };
 
