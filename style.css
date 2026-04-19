@@ -47,6 +47,32 @@
         gap: 20px; /* More space between the cards themselves */
     }
 }
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: #2c3e50;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.slider-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Ensure the slider is easy to grab */
+input[type="range"] {
+    cursor: pointer;
+    width: 150px;
+}
+
 /* Prevent accidental zooming when tapping buttons quickly */
 button {
     touch-action: manipulation;
