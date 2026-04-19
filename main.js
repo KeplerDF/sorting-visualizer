@@ -2,13 +2,13 @@ import { bubbleSort } from './algos/bubblesort.js';
 import { quickSort } from './algos/quicksort.js';
 import { mergeSort } from './algos/mergesort.js';
 import { heapSort } from './algos/heapsort.js';
-// Import the state and wait function from your controller
+
 import { state, wait } from './controller.js';
 
 let masterArray = [];
 let isRunning = false;
 
-// We need to export these so the HTML "onclick" can find them
+// Export these so the HTML "onclick" can find them
 window.togglePlay = function() {
     state.isPaused = !state.isPaused;
     document.getElementById('startBtn').innerText = state.isPaused ? "Resume" : "Pause";
@@ -22,7 +22,6 @@ window.triggerStep = function() {
     }
 };
 
-// This matches your HTML "onclick"
 window.startRace = async function() {
     if (isRunning) return; 
     isRunning = true;
@@ -31,7 +30,7 @@ window.startRace = async function() {
     
     document.getElementById('status').innerText = "Status: Running";
     
-    // Start all algorithms simultaneously with correct container IDs
+    // Start all algorithms simultaneously
     await Promise.all([
         bubbleSort([...masterArray], "bubble-container"),
         quickSort([...masterArray], 0, masterArray.length - 1, "quick-container"),
