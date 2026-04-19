@@ -4,9 +4,16 @@ import { mergeSort } from './algos/mergesort.js';
 import { heapSort } from './algos/heapsort.js';
 
 import { state, wait, render } from './controller.js';
+import { toggleMute } from './audio.js';
 
 let masterArray = [];
 let isRunning = false; 
+
+window.handleMute = function() {
+    const muted = toggleMute();
+    const btn = document.getElementById('muteBtn');
+    btn.innerText = muted ? "🔇 Unmute" : "🔊 Mute";
+};
 
 export function highlightLine(algoPrefix, lineNumber) {
     const lines = document.querySelectorAll(`#${algoPrefix}-code span`);
