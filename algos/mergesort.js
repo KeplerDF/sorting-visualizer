@@ -7,7 +7,7 @@ export async function mergeSort(arr, left, right, containerId) {
     const prefix = "merge";
     
     highlightLine(prefix, 2);
-    if (left >= right) return;
+    if (state.isResetting ||left >= right) return; // Check for reset
 
     highlightLine(prefix, 3);
     let mid = Math.floor((left + right) / 2);
@@ -17,7 +17,7 @@ export async function mergeSort(arr, left, right, containerId) {
 
     highlightLine(prefix, 5); // Recursive call for right half
     await mergeSort(arr, mid + 1, right, containerId);
-
+    if (state.isResetting) return;  // Check for reset
     highlightLine(prefix, 6); // The actual merging happens here
     await merge(arr, left, mid, right, containerId);
     
