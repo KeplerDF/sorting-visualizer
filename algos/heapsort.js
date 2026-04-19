@@ -6,6 +6,7 @@ export async function heapSort(arr, containerId) {
     for (let i = Math.floor(n / 2) - 1; i >= 0; i--) await heapify(arr, n, i, containerId);
     if (state.isResetting) return;
     for (let i = n - 1; i > 0; i--) {
+        if (state.isResetting) return;
         [arr[0], arr[i]] = [arr[i], arr[0]];
         render(arr, containerId);
         playNote(arr[i], 'sawtooth');
