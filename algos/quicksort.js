@@ -1,16 +1,16 @@
 import { state, wait, render } from '../controller.js';
 
-export async function quickSort(arr, left, right, id) {
+export async function quickSort(arr, left, right, containerId) {
     if (state.isResetting) return;
     if (left >= right) return;
-    let index = await partition(arr, left, right, id);
+    let index = await partition(arr, left, right, containerId);
     await Promise.all([
-        quickSort(arr, left, index - 1, id),
-        quickSort(arr, index + 1, right, id)
+        quickSort(arr, left, index - 1, containerId),
+        quickSort(arr, index + 1, right, containerId)
     ]);
 }
 
-export async function partition(arr, left, right, id) {
+export async function partition(arr, left, right, containerId) {
     if (state.isResetting) return;
     let pivot = arr[high];
     let i = low - 1;
