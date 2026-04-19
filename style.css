@@ -13,12 +13,14 @@
 .bar-container {
     display: flex;
     align-items: flex-end;
-    height: 200px;
-    gap: 2px;
+    height: 250px; /* Essential for % height bars */
+    background: #eee; /* Light background to see if container exists */
+    border-bottom: 2px solid #333;
 }
 .bar {
-    background: #3498db;
-    flex: 1;
+    background: #3498db; /* Blue */
+    border: 1px solid white;
+    width: 100%; /* Ensure bars have width */
 }
 .code-view {
     background: #282c34;
