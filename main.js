@@ -8,7 +8,13 @@ import { state, wait, render } from './controller.js';
 let masterArray = [];
 let isRunning = false; 
 
-// Export these so the HTML "onclick" can find them
+export function highlightLine(algoPrefix, lineNumber) {
+    const lines = document.querySelectorAll(`#${algoPrefix}-code span`);
+    lines.forEach(line => line.classList.remove('line-highlight'));
+    const target = document.getElementById(`${algoPrefix}-l${lineNumber}`);
+    if (target) target.classList.add('line-highlight');
+}
+
 window.togglePlay = function() {
     state.isPaused = !state.isPaused;
     document.getElementById('startBtn').innerText = state.isPaused ? "Resume" : "Pause";
