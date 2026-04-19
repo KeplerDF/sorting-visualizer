@@ -2,6 +2,7 @@ import { state, wait, render } from '../controller.js';
 import { highlightLine } from '../main.js';
 
 export async function mergeSort(arr, left, right, id) {
+    if (state.isResetting) return;
     const prefix = "merge";
     
     highlightLine(prefix, 2);
@@ -23,6 +24,7 @@ export async function mergeSort(arr, left, right, id) {
 }
 
 export async function merge(arr, start, mid, end, id) {
+    if (state.isResetting) return;
     let leftPart = arr.slice(start, mid + 1);
     let rightPart = arr.slice(mid + 1, end + 1);
     
