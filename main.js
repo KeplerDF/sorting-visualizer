@@ -3,6 +3,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 let isPaused = false;
 let stepRequested = false;
 let masterArray = [];
+let isRunning = false;
 
 function togglePlay() {
     isPaused = !isPaused;
@@ -83,4 +84,18 @@ async function startTandemRace() {
     const heapPromise = heapSort([...masterArray], "heap");
 
     await Promise.all([bubblePromise, quickPromise, mergePromise, heapPromise]);
+}
+
+async function startRace() {
+    if (isRunning) return; // Prevent double starts
+    isRunning = true;
+    
+    // Reset UI and data
+    generateNewArray();
+    
+    // Start the algorithms...
+    await startTandemRace();
+    
+    isRunning = false;
+    document.getElementById('status').innerText = "Status: Finished!";
 }
