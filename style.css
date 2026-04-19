@@ -15,25 +15,38 @@
     max-width: 1200px;
     margin: 0 auto;
 }
+/* 1. The Card must have a fixed height */
 .algo-card {
-    height: 400px !important; /* Constrain the card */
     display: flex;
     flex-direction: column;
+    height: 400px !important; /* This is the anchor */
+    background: #222;
+    padding: 10px;
+    border: 1px solid #444;
 }
+/* 2. The Container must fill the available space in the card */
 .bar-container {
-    flex: 1;                 /* This forces the container to fill the card */
-    min-height: 200px;       /* Gives a floor for the percentage calculation */
     display: flex !important;
-    align-items: flex-end;
-    background: #111;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    
+    /* This tells the container to grab all space not used by the H3 or Code */
+    flex-grow: 1; 
+    
+    /* We also set a min-height as a fallback */
+    min-height: 200px; 
+    
     width: 100%;
+    background-color: #111;
+    overflow: hidden;
+    padding-bottom: 2px;
 }
+/* 3. The Bars now have a height to reference */
 .bar {
     background-color: #3498db !important;
-    flex: 1;
+    flex: 1; 
     margin: 0 1px;
-    z-index: 10; /* Ensure they sit on top */
-    border-top: 2px solid rgba(255,255,255,0.3); /* Add a 'cap' to the bar */
+    /* The height: XX% is injected by JS */
 }
 /* Make the code view smaller and scrollable within the card */
 .code-view {
