@@ -23,21 +23,23 @@
     margin-bottom: 10px;
 }
 .bar-container {
-    display: flex !important;   /* Force flexbox layout */
-    flex-direction: row;        /* Ensure they go left-to-right */
-    align-items: flex-end;      /* Stick bars to the bottom */
-    height: 200px;              /* Must have a height for % to work */
-    width: 100%;                /* Take up full card width */
-    background: #111;           /* Dark background to see the bars */
-    gap: 1px;                   /* Space between bars */
-    padding: 5px;
-    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    height: 250px; /* Explicit height is REQUIRED for % to work */
+    width: 100%;
+    background-color: #111;
+    border: 1px solid #444;
+    overflow: hidden;
 }
 .bar {
-    background-color: #3498db;  /* The blue color */
-    flex: 1;                    /* Forces bars to share horizontal space */
-    /* DO NOT set 'display: block' here */
-    /* DO NOT set 'width: 100%' here */
+    background-color: #3498db !important;
+    /* This next line fixes the 1765px issue */
+    flex: 1 1 0; 
+    width: auto !important; 
+    
+    /* Ensure there's a tiny bit of space between them */
+    margin: 0 1px;
 }
 /* Make the code view smaller and scrollable within the card */
 .code-view {
