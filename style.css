@@ -16,21 +16,17 @@
     margin: 0 auto;
 }
 .algo-card {
-    /* Keep cards contained so they don't grow too large */
+    height: 400px !important; /* Constrain the card */
     display: flex;
     flex-direction: column;
-    height: 350px; 
-    margin-bottom: 10px;
 }
 .bar-container {
+    flex: 1;                 /* This forces the container to fill the card */
+    min-height: 200px;       /* Gives a floor for the percentage calculation */
     display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-end !important;
-    height: 250px; /* Explicit height is REQUIRED for % to work */
+    align-items: flex-end;
+    background: #111;
     width: 100%;
-    background-color: #111;
-    border: 1px solid #444;
-    overflow: hidden;
 }
 .bar {
     background-color: #3498db !important;
