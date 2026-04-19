@@ -8,12 +8,26 @@ export const state = {
 export const wait = () => {
     return new Promise((resolve) => {
         const check = () => {
+            // 1. If we are resetting, kill the promise immediately
             if (state.isResetting) {
-                resolve(); // Resolve immediately so the function can hit the 'return' line
-            } else if (!state.isPaused) {
+                resolve();
+                return;
+            }
+
+            // 2. If a step was requested, consume it and move forward
+            if (state.stepRequested) {
+                state.stepRequested = false; // Reset the flag
+                resolve(); // This "steps" the algorithm forward one frame
+                return;
+            }
+
+            // 3. If we are NOT paused, wait the normal delay
+            if (!state.isPaused) {
                 setTimeout(resolve, state.delay);
-            } else {
-                requestAnimationFrame(check); // Keep waiting if paused
+            } 
+            // 4. If we ARE paused, keep checking for a resume or a step
+            else {
+                requestAnimationFrame(check); 
             }
         };
         check();
