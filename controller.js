@@ -5,16 +5,20 @@ export const state = {
     delay: 100
 };
 
-export async function wait() {
-    const speedInput = document.getElementById('speed');
-    const speed = speedInput ? speedInput.value : 100;
-    
-    while (state.isPaused && !state.stepRequested) {
-        await new Promise(r => setTimeout(r, 50));
-    }
-    state.stepRequested = false; 
-    await new Promise(r => setTimeout(r, 501 - speed));
-}
+export const wait = () => {
+    return new Promise((resolve) => {
+        const check = () => {
+            if (state.isResetting) {
+                resolve(); // Resolve immediately so the function can hit the 'return' line
+            } else if (!state.isPaused) {
+                setTimeout(resolve, state.delay);
+            } else {
+                requestAnimationFrame(check); // Keep waiting if paused
+            }
+        };
+        check();
+    });
+};
 
 export function render(array, containerId, activeIndices = [], isFinished = false) {
     const container = document.getElementById(containerId);
