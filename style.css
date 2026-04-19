@@ -13,7 +13,6 @@
     margin: 0 auto;
 }
 .algo-card {
-    border: 5px solid green !important;
     display: flex !important;
     flex-direction: column !important;
     
@@ -42,10 +41,10 @@
     box-sizing: border-box;
 }
 .bar {
-    background-color: #3498db !important;
-    flex: 1; /* Share width */
+    background-color: #3498db;
+    flex: 1;
     margin: 0 1px;
-    /* Height % now has 350px of card space to work with! */
+    transition: height 0.05s ease; /* Makes the "movement" look fluid */
 }
 /* Make the code view smaller and scrollable within the card */
 .code-view {
