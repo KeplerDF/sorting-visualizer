@@ -25,30 +25,30 @@ export async function mergeSort(arr, left, right, containerId) {
 }
 
 export async function merge(arr, start, mid, end, containerId) {
-    if (state.isResetting) return;
     let leftPart = arr.slice(start, mid + 1);
     let rightPart = arr.slice(mid + 1, end + 1);
     
     let i = 0, j = 0, k = start;
 
     while (i < leftPart.length && j < rightPart.length) {
+        if (state.isResetting) return;
         // Highlight the two bars being compared in the UI
         render(arr, containerId, [start + i, mid + 1 + j]); 
         playNote(arr[j], 'triangle');
-        await wait(); 
 
         if (leftPart[i] <= rightPart[j]) {
             arr[k] = leftPart[i++];
         } else {
             arr[k] = rightPart[j++];
         }
+        await wait();
         k++;
         render(arr, containerId); // Update UI to show the new value in the main array
     }
 
     // Copy remaining elements
-    while (i < leftPart.length) arr[k++] = leftPart[i++];
-    while (j < rightPart.length) arr[k++] = rightPart[j++];
+    while (i < leftPart.length) {await wait(); arr[k++] = leftPart[i++];}
+    while (j < rightPart.length) {await wait(); arr[k++] = rightPart[j++];}
     
     render(arr, containerId);
 }
