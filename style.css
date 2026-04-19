@@ -30,12 +30,10 @@
 }
 .bar {
     background-color: #3498db !important;
-    /* This next line fixes the 1765px issue */
-    flex: 1 1 0; 
-    width: auto !important; 
-    
-    /* Ensure there's a tiny bit of space between them */
+    flex: 1;
     margin: 0 1px;
+    z-index: 10; /* Ensure they sit on top */
+    border-top: 2px solid rgba(255,255,255,0.3); /* Add a 'cap' to the bar */
 }
 /* Make the code view smaller and scrollable within the card */
 .code-view {
