@@ -109,6 +109,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById('speed').addEventListener('input', (e) => {
-    // Invert the value so higher slider = faster speed (lower delay)
-    state.delay = 501 - e.target.value; 
+    const val = parseInt(e.target.value);
+   
+    state.delay = Math.max(5, 400 - (val * 2)); 
 });
