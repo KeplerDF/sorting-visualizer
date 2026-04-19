@@ -20,22 +20,16 @@ export function render(array, containerId, activeIndices = []) {
     if (!container) return;
     
     container.innerHTML = '';
-    
     array.forEach((val, idx) => {
-        // Log the first value to the console to see what it actually is
-        if (idx === 0) console.log(`Rendering ${containerId}, first value is:`, val);
-
         const bar = document.createElement('div');
         bar.className = 'bar';
         
-        // Use Math.max to ensure it's at least 1% so it's never truly 0px
-        const numericValue = Number(val) || 0; 
-        bar.style.height = `${Math.max(numericValue, 2)}%`; 
+        // This is the percentage height
+        bar.style.height = `${val}%`; 
         
         if (activeIndices.includes(idx)) {
-            bar.style.backgroundColor = "#e74c3c";
+            bar.style.backgroundColor = "#e74c3c"; // Red for active
         }
-        
         container.appendChild(bar);
     });
 }
