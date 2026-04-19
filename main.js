@@ -36,6 +36,11 @@ window.triggerStep = function() {
 };
 
 window.startRace = async function() {
+    
+    if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+    }
+    
     if (isRunning) return; 
     isRunning = true;
     generateNewArray();
