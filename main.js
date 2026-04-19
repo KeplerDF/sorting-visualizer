@@ -67,3 +67,7 @@ function generateNewArray(size = 50) {
     render(masterArray, "merge-container");
     render(masterArray, "heap-container");
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+    generateNewArray();
+});
