@@ -1,5 +1,4 @@
-// audio.js
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+export const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 let isMuted = false;
 
 export function toggleMute() {
