@@ -36,28 +36,38 @@ window.triggerStep = function() {
 };
 
 window.startRace = async function() {
-    
-    if (isRunning) return;
+    if (isRunning) return; 
     isRunning = true;
-    
     generateNewArray();
     
     document.getElementById('status').innerText = "Status: Running";
     
-    // Wrapped each call in an anonymous function so it can 
-    // trigger the "Green" render as soon as THAT specific one ends.
     await Promise.all([
-        bubbleSort([...masterArray], "bubble-container").then(() => 
-            render(masterArray, "bubble-container", [], true)),
+        // We create the copy HERE
+        (async () => {
+            const copy = [...masterArray];
+            await bubbleSort(copy, "bubble-container");
+            // We render the COPY (which is now sorted), not the masterArray
+            render(copy, "bubble-container", [], true); 
+        })(),
             
-        quickSort([...masterArray], 0, masterArray.length - 1, "quick-container").then(() => 
-            render(masterArray, "quick-container", [], true)),
+        (async () => {
+            const copy = [...masterArray];
+            await quickSort(copy, 0, copy.length - 1, "quick-container");
+            render(copy, "quick-container", [], true);
+        })(),
             
-        mergeSort([...masterArray], 0, masterArray.length - 1, "merge-container").then(() => 
-            render(masterArray, "merge-container", [], true)),
+        (async () => {
+            const copy = [...masterArray];
+            await mergeSort(copy, 0, copy.length - 1, "merge-container");
+            render(copy, "merge-container", [], true);
+        })(),
             
-        heapSort([...masterArray], "heap-container").then(() => 
-            render(masterArray, "heap-container", [], true))
+        (async () => {
+            const copy = [...masterArray];
+            await heapSort(copy, "heap-container");
+            render(copy, "heap-container", [], true);
+        })()
     ]);
     
     isRunning = false;
