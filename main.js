@@ -48,25 +48,29 @@ window.startRace = async function() {
             const copy = [...masterArray];
             await bubbleSort(copy, "bubble-container");
             // We render the COPY (which is now sorted), not the masterArray
-            render(copy, "bubble-container", [], true); 
+            render(copy, "bubble-container", [], true);
+            playNote(100, 'sine');
         })(),
             
         (async () => {
             const copy = [...masterArray];
             await quickSort(copy, 0, copy.length - 1, "quick-container");
             render(copy, "quick-container", [], true);
+            playNote(100, 'square');
         })(),
             
         (async () => {
             const copy = [...masterArray];
             await mergeSort(copy, 0, copy.length - 1, "merge-container");
             render(copy, "merge-container", [], true);
+            playNote(100, 'triangle');
         })(),
             
         (async () => {
             const copy = [...masterArray];
             await heapSort(copy, "heap-container");
             render(copy, "heap-container", [], true);
+            playNote(100, 'sawtooth');
         })()
     ]);
     
