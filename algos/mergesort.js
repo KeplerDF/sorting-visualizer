@@ -1,5 +1,6 @@
 import { state, wait, render } from '../controller.js';
 import { highlightLine } from '../main.js';
+import { playNote } from '../audio.js';
 
 export async function mergeSort(arr, left, right, containerId) {
     if (state.isResetting) return;
@@ -33,6 +34,7 @@ export async function merge(arr, start, mid, end, containerId) {
     while (i < leftPart.length && j < rightPart.length) {
         // Highlight the two bars being compared in the UI
         render(arr, containerId, [start + i, mid + 1 + j]); 
+        playNote(arr[j], 'triangle');
         await wait(); 
 
         if (leftPart[i] <= rightPart[j]) {
