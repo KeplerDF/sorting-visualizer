@@ -99,6 +99,14 @@ input[type="range"] {
 }
 
 /* --- Code Snippet View --- */
+.code-wrapper {
+    flex: 1;
+    margin-top: 10px;
+    background: #000;
+    border: 1px solid #333;
+    overflow: hidden; /* Ensures the scrollbar is inside the pre */
+}
+
 .code-view {
     flex: 1; /* Gives the code LESS weight (1/3 of the card) */
     height: 100px; /* Strictly limit height */
