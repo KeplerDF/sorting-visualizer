@@ -6,7 +6,7 @@ import { heapSort } from './algos/heapsort.js';
 import { state, wait } from './controller.js';
 
 let masterArray = [];
-let isRunning = false;
+let isRunning = false; 
 
 // Export these so the HTML "onclick" can find them
 window.togglePlay = function() {
