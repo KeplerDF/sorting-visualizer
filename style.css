@@ -24,29 +24,22 @@
     padding: 10px;
     border: 1px solid #444;
 }
-/* 2. The Container must fill the available space in the card */
 .bar-container {
     display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-end !important;
-    
-    /* This tells the container to grab all space not used by the H3 or Code */
-    flex-grow: 1; 
-    
-    /* We also set a min-height as a fallback */
-    min-height: 200px; 
-    
+    flex-direction: row !important; /* Forces side-by-side */
+    align-items: flex-end !important; /* Bottom-up bars */
+    height: 250px !important; /* Gives the % a pixel value to calculate against */
     width: 100%;
     background-color: #111;
-    overflow: hidden;
-    padding-bottom: 2px;
+    gap: 1px;
+    padding: 5px;
+    box-sizing: border-box;
 }
-/* 3. The Bars now have a height to reference */
 .bar {
-    background-color: #3498db !important;
-    flex: 1; 
-    margin: 0 1px;
-    /* The height: XX% is injected by JS */
+    background-color: #3498db; /* Blue */
+    flex: 1 1 0; /* This replaces 'width: 5px'. It tells bars to share the space evenly. */
+    min-width: 1px; /* Prevents them from disappearing */
+    /* Height is set by JS (e.g., 45%), but it only works because container is 250px */
 }
 /* Make the code view smaller and scrollable within the card */
 .code-view {
