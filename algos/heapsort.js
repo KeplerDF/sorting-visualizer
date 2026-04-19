@@ -1,4 +1,5 @@
 import { state, wait, render } from '../controller.js';
+import { playNote } from '../audio.js';
 
 export async function heapSort(arr, containerId) {
     if (state.isResetting) return;
@@ -7,6 +8,7 @@ export async function heapSort(arr, containerId) {
     for (let i = n - 1; i > 0; i--) {
         [arr[0], arr[i]] = [arr[i], arr[0]];
         render(arr, containerId);
+        playNote(arr[i], 'sawtooth');
         await wait(); 
         await heapify(arr, i, 0, containerId);
     }
