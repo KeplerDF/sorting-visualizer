@@ -42,9 +42,9 @@ export async function merge(arr, start, mid, end, containerId) {
         } else {
             arr[k] = rightPart[j++];
         }
-        await wait(mySteps);
         k++;
         render(arr, containerId); // Update UI to show the new value in the main array
+        await wait(mySteps);
     }
 
     // Copy remaining elements
