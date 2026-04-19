@@ -1,4 +1,4 @@
-import { bubbleSort } from './algos/bubblesort.js';
+import { bubbleSort } from './algos/bubble.js';
 import { quickSort } from './algos/quicksort.js';
 import { mergeSort } from './algos/mergesort.js';
 import { heapSort } from './algos/heapsort.js';
