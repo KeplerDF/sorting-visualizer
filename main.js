@@ -7,7 +7,7 @@ import { state, wait, render, resetStats} from './controller.js';
 import { toggleMute, playNote, playSuccessArpeggio } from './audio.js';
  
 let masterArray = [];
-let isRunning = false; 
+let isRunning = false;  
 
 window.handleMute = function() {
     const muted = toggleMute();
