@@ -1,4 +1,4 @@
-import { state, wait, render } from '../controller.js';
+import { state, wait, render, updateStats} from '../controller.js';
 import { highlightLine } from '../main.js';
 import { playNote } from '../audio.js';
 
@@ -37,6 +37,7 @@ export async function mergeSort(arr, left, right, containerId, mySteps) {
 async function merge(arr, start, mid, end, containerId, mySteps) {
     let leftPart = arr.slice(start, mid + 1);
     let rightPart = arr.slice(mid + 1, end + 1);
+    updateStats('bubble', 'comp');
 
     let i = 0, j = 0, k = start;
 
@@ -57,6 +58,7 @@ async function merge(arr, start, mid, end, containerId, mySteps) {
         k++;
         render(arr, containerId, [k-1]); // Render the placement
         await wait(mySteps); // Pause here
+        updateStats('bubble', 'swap');
     }
 
     // 5. Cleaned up remaining element loops
@@ -67,6 +69,7 @@ async function merge(arr, start, mid, end, containerId, mySteps) {
         playNote(arr[k], 'triangle');
         k++;
         await wait(mySteps);
+        updateStats('bubble', 'swap');
     }
 
     while (j < rightPart.length) {
@@ -76,5 +79,6 @@ async function merge(arr, start, mid, end, containerId, mySteps) {
         playNote(arr[k], 'triangle');
         k++;
         await wait(mySteps);
+        updateStats('bubble', 'swap');
     }
 }
