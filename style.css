@@ -82,6 +82,35 @@ input[type="range"] {
     color: #ecf0f1;
 }
 
+/* --- Card Stats--- */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.complexity-label {
+    font-size: 0.8rem;
+    background: #34495e;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #3498db;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px 0;
+    font-size: 0.75rem;
+    color: #aaa;
+    background: #111;
+    border-top: 1px solid #333;
+}
+
+.stats-row b {
+    color: #fff;
+}
+
 /* --- Visualizer Bars --- */
 .bar-container {
     flex: 2; /* Gives the chart MORE weight (2/3 of the card) */
