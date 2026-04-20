@@ -1,4 +1,4 @@
-import { state, wait, render } from '../controller.js';
+import { state, wait, render, updateStats} from '../controller.js';
 import { playNote } from '../audio.js';
 
 export async function bubbleSort(arr,containerId) {
@@ -13,7 +13,9 @@ export async function bubbleSort(arr,containerId) {
             playNote(arr[j], 'sine');
             await wait(mySteps);
 
+            updateStats('bubble', 'comp');
             if (arr[j] > arr[j + 1]) {
+                updateStats('bubble', 'swap')
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
                 // Re-render after swap
                 render(arr, containerId, [j, j + 1]);
