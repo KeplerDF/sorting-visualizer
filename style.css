@@ -136,6 +136,16 @@ input[type="range"] {
     position: relative;
 }
 
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(52, 152, 219, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+}
+
+.info-badge {
+    animation: pulse 2s infinite;
+}
+
 /* --- The Tooltip Box-- */
 .info-badge .tooltip {
     visibility: hidden;
@@ -156,6 +166,8 @@ input[type="range"] {
     font-weight: normal;
     font-size: 0.75rem;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    pointer-events: none; /* Prevents the tooltip from blocking clicks */
+    word-wrap: break-word;
 }
 
 /* Tooltip Arrow */
@@ -213,11 +225,33 @@ input[type="range"] {
     white-space: pre-wrap;
 }
 
-/* --- Responsive Adjustments (Mobile/Tablet) --- */
+/* --- Code Highlighting --- */
+.code-view span {
+    display: block;
+    width: 100%;
+    transition: background 0.1s ease;
+}
 
+/* This class will be toggled by your highlightLine function */
+.code-view span.highlight {
+    background-color: rgba(46, 204, 113, 0.3); /* Transparent green */
+    color: #fff;
+    font-weight: bold;
+    border-left: 3px solid #2ecc71;
+    padding-left: 5px;
+}
+
+/* --- Responsive Adjustments (Mobile/Tablet) --- */
 @media (max-width: 900px) {
     .grid-container {
         grid-template-columns: 1fr; /* Stack cards vertically */
+    }
+}
+
+@media (max-width: 400px) {
+    .info-badge .tooltip {
+        width: 160px;
+        font-size: 0.7rem;
     }
 }
 
