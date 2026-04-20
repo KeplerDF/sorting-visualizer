@@ -1,4 +1,4 @@
-import { state, wait, render } from '../controller.js';
+import { state, wait, render, updateStats} from '../controller.js';
 import { playNote } from '../audio.js';
 
 export async function quickSort(arr, left, right, containerId, mySteps) {
