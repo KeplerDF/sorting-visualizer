@@ -190,20 +190,18 @@ input[type="range"] {
 }
 
 /* --- Visualizer Bars --- */
-.bar-container {
-    flex-grow: 1;
+..bar-container {
+    flex-grow: 1; /* Make sure it takes up space */
+    min-height: 150px; /* Crucial: ensures the container isn't 0px tall */
     display: flex;
     align-items: flex-end;
     background-color: #0a0a0a;
-    padding: 5px;
-    border-radius: 4px;
-    min-height: 150px;
 }
 
 .bar {
-    flex: 1;
+    flex: 1; /* Allows bars to stretch horizontally to fill the width */
     margin: 0 1px;
-    transition: height 0.1s ease;
+    /* Height is set via JS style.height */
 }
 
 /* --- Code View --- */
