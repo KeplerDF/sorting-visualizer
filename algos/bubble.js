@@ -3,7 +3,7 @@ import { playNote } from '../audio.js';
 
 export async function bubbleSort(arr,containerId) {
     
-    if (state.isResetting) return;
+    if (state.isResetting) return; 
     let mySteps = { count: state.stepCount };
     
     for (let i = 0; i < arr.length; i++) {
