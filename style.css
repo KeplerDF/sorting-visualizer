@@ -199,9 +199,9 @@ input[type="range"] {
 }
 
 .bar {
-    flex: 1; /* Allows bars to stretch horizontally to fill the width */
+    flex: 1;
     margin: 0 1px;
-    /* Height is set via JS style.height */
+    transition: height 0.1s ease; /* Smooths the movement */
 }
 
 /* --- Code View --- */
