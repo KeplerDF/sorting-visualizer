@@ -2,7 +2,6 @@ import { state, wait, render, updateStats } from '../controller.js';
 import { playNote } from '../audio.js';
 
 export async function heapSort(arr, containerId) {
-    updateStats('heap', 'comp');
     let n = arr.length;
     let mySteps = { count: state.stepCount }; 
 
@@ -27,13 +26,20 @@ export async function heapify(arr, n, i, containerId, mySteps) {
     // Highlight parent and potential children
     render(arr, containerId, [i, l, r]);
     await wait(mySteps);
-    updateStats('heap', 'swap');
     
-    if (l < n && arr[l] > arr[largest]) largest = l;
-    if (r < n && arr[r] > arr[largest]) largest = r;
+    updateStats('heap', 'comp');
+    if (l < n) {
+        updateStats('heap', 'comp'); // Comparing parent to left child
+        if (arr[l] > arr[largest]) largest = l;
+    }
+    if (r < n) {
+        updateStats('heap', 'comp'); // Comparing parent to right child
+        if (arr[r] > arr[largest]) largest = r;
+    }
 
     if (largest !== i) {
         if (state.isResetting) return;
+        updateStats('heap', 'swap'); // Move this here
         [arr[i], arr[largest]] = [arr[largest], arr[i]];
         render(arr, containerId, [i, largest]);
         await heapify(arr, n, largest, containerId, mySteps);
