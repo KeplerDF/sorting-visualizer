@@ -190,7 +190,7 @@ input[type="range"] {
 }
 
 /* --- Visualizer Bars --- */
-..bar-container {
+.bar-container {
     flex-grow: 1; /* Make sure it takes up space */
     min-height: 150px; /* Crucial: ensures the container isn't 0px tall */
     display: flex;
