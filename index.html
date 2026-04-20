@@ -1,117 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<div class="grid-container">
-    <div class="algo-card">
-        <div class="card-header">
-            <div class="title-group">
-                <h3>Bubble Sort</h3>
-                <div class="info-badge">i
-                    <span class="tooltip">
-                        <strong>Time:</strong> O(n²)<br>
-                        <strong>Space:</strong> O(1)<br>
-                        <strong>Stable:</strong> Yes<br>
-                        <em>Inefficient for large lists but great for teaching basics.</em>
-                    </span>
-                </div>
-            </div>
-            <span class="complexity-label label-slow">O(n²)</span>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="controls">
+        <button id="muteBtn" onclick="handleMute()">🔊 Mute</button>
+        <button onclick="startRace()">Start Race</button>
+        <button id="startBtn" onclick="togglePlay()">Pause</button>
+        <button id="stepBtn" onclick="triggerStep()" disabled>Step Forward</button>
+        <button onclick="resetRace()">Reset</button>
+        
+        <div class="slider-group">
+            <span>Speed: </span>
+            <input type="range" id="speed" min="1" max="200" value="100">
         </div>
         
-        <div id="bubble-container" class="bar-container"></div>
-        
-        <div class="stats-row">
-            <span>Comps: <b id="bubble-comps">0</b></span>
-            <span>Swaps: <b id="bubble-swaps">0</b></span>
-        </div>
-
-        <div class="code-wrapper">
-            <pre class="code-view" id="bubble-code">/* Bubble Sort Snippet */</pre>
-        </div>
+        <div id="status">Status: Ready</div>
     </div>
-
-    <div class="algo-card">
-        <div class="card-header">
-            <div class="title-group">
-                <h3>Quick Sort</h3>
-                <div class="info-badge">i
-                    <span class="tooltip">
-                        <strong>Time:</strong> O(n log n)<br>
-                        <strong>Space:</strong> O(log n)<br>
-                        <strong>Stable:</strong> No<br>
-                        <em>A "divide and conquer" algorithm Fastest in practice for most data.</em>
-                    </span>
+    <div class="grid-container">
+        <div class="algo-card">
+            <div class="card-header">
+                <div class="title-group">
+                    <h3>Bubble Sort</h3>
+                    <div class="info-badge">i
+                        <span class="tooltip">
+                            <strong>Time:</strong> O(n²)<br>
+                            <strong>Space:</strong> O(1)<br>
+                            <strong>Stable:</strong> Yes<br>
+                            <em>Inefficient for large lists but great for teaching basics.</em>
+                        </span>
+                    </div>
                 </div>
+                <span class="complexity-label label-slow">O(n²)</span>
             </div>
-            <span class="complexity-label label-efficient">O(n log n)</span>
+            
+            <div id="bubble-container" class="bar-container"></div>
+            
+            <div class="stats-row">
+                <span>Comps: <b id="bubble-comps">0</b></span>
+                <span>Swaps: <b id="bubble-swaps">0</b></span>
+            </div>
+    
+            <div class="code-wrapper">
+                <pre class="code-view" id="bubble-code">/* Bubble Sort Snippet */</pre>
+            </div>
         </div>
-
-        <div id="quick-container" class="bar-container"></div>
-
-        <div class="stats-row">
-            <span>Comps: <b id="quick-comps">0</b></span>
-            <span>Swaps: <b id="quick-swaps">0</b></span>
-        </div>
-
-        <div class="code-wrapper">
-            <pre class="code-view" id="quick-code">/* Quick Sort Snippet */</pre>
-        </div>
-    </div>
-
-    <div class="algo-card">
-        <div class="card-header">
-            <div class="title-group">
-                <h3>Merge Sort</h3>
-                <div class="info-badge">i
-                    <span class="tooltip">
-                        <strong>Time:</strong> O(n log n)<br>
-                        <strong>Space:</strong> O(n)<br>
-                        <strong>Stable:</strong> Yes<br>
-                        <em>Guaranteed O(n log n) even in worst-case scenarios.</em>
-                    </span>
+    
+        <div class="algo-card">
+            <div class="card-header">
+                <div class="title-group">
+                    <h3>Quick Sort</h3>
+                    <div class="info-badge">i
+                        <span class="tooltip">
+                            <strong>Time:</strong> O(n log n)<br>
+                            <strong>Space:</strong> O(log n)<br>
+                            <strong>Stable:</strong> No<br>
+                            <em>A "divide and conquer" algorithm Fastest in practice for most data.</em>
+                        </span>
+                    </div>
                 </div>
+                <span class="complexity-label label-efficient">O(n log n)</span>
             </div>
-            <span class="complexity-label label-efficient">O(n log n)</span>
+    
+            <div id="quick-container" class="bar-container"></div>
+    
+            <div class="stats-row">
+                <span>Comps: <b id="quick-comps">0</b></span>
+                <span>Swaps: <b id="quick-swaps">0</b></span>
+            </div>
+    
+            <div class="code-wrapper">
+                <pre class="code-view" id="quick-code">/* Quick Sort Snippet */</pre>
+            </div>
         </div>
-
-        <div id="merge-container" class="bar-container"></div>
-
-        <div class="stats-row">
-            <span>Comps: <b id="merge-comps">0</b></span>
-            <span>Swaps: <b id="merge-swaps">0</b></span>
-        </div>
-
-        <div class="code-wrapper">
-            <pre class="code-view" id="merge-code">/* Merge Sort Snippet */</pre>
-        </div>
-    </div>
-
-    <div class="algo-card">
-        <div class="card-header">
-            <div class="title-group">
-                <h3>Heap Sort</h3>
-                <div class="info-badge">i
-                    <span class="tooltip">
-                        <strong>Time:</strong> O(n log n)<br>
-                        <strong>Space:</strong> O(1)<br>
-                        <strong>Stable:</strong> No<br>
-                        <em>Combines the speed of Merge Sort with the memory efficiency of Bubble Sort.</em>
-                    </span>
+    
+        <div class="algo-card">
+            <div class="card-header">
+                <div class="title-group">
+                    <h3>Merge Sort</h3>
+                    <div class="info-badge">i
+                        <span class="tooltip">
+                            <strong>Time:</strong> O(n log n)<br>
+                            <strong>Space:</strong> O(n)<br>
+                            <strong>Stable:</strong> Yes<br>
+                            <em>Guaranteed O(n log n) even in worst-case scenarios.</em>
+                        </span>
+                    </div>
                 </div>
+                <span class="complexity-label label-efficient">O(n log n)</span>
             </div>
-            <span class="complexity-label label-efficient">O(n log n)</span>
+    
+            <div id="merge-container" class="bar-container"></div>
+    
+            <div class="stats-row">
+                <span>Comps: <b id="merge-comps">0</b></span>
+                <span>Swaps: <b id="merge-swaps">0</b></span>
+            </div>
+    
+            <div class="code-wrapper">
+                <pre class="code-view" id="merge-code">/* Merge Sort Snippet */</pre>
+            </div>
         </div>
-
-        <div id="heap-container" class="bar-container"></div>
-
-        <div class="stats-row">
-            <span>Comps: <b id="heap-comps">0</b></span>
-            <span>Swaps: <b id="heap-swaps">0</b></span>
-        </div>
-
-        <div class="code-wrapper">
-            <pre class="code-view" id="heap-code">/* Heap Sort Snippet */</pre>
+    
+        <div class="algo-card">
+            <div class="card-header">
+                <div class="title-group">
+                    <h3>Heap Sort</h3>
+                    <div class="info-badge">i
+                        <span class="tooltip">
+                            <strong>Time:</strong> O(n log n)<br>
+                            <strong>Space:</strong> O(1)<br>
+                            <strong>Stable:</strong> No<br>
+                            <em>Combines the speed of Merge Sort with the memory efficiency of Bubble Sort.</em>
+                        </span>
+                    </div>
+                </div>
+                <span class="complexity-label label-efficient">O(n log n)</span>
+            </div>
+    
+            <div id="heap-container" class="bar-container"></div>
+    
+            <div class="stats-row">
+                <span>Comps: <b id="heap-comps">0</b></span>
+                <span>Swaps: <b id="heap-swaps">0</b></span>
+            </div>
+    
+            <div class="code-wrapper">
+                <pre class="code-view" id="heap-code">/* Heap Sort Snippet */</pre>
+            </div>
         </div>
     </div>
-</div>
-
-<script type="module" src="main.js"></script>
+    
+    <script type="module" src="main.js"></script>
+</body>
+</html>
