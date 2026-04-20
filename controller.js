@@ -38,27 +38,27 @@ export const wait = (localStepTracker) => {
     });
 };
 
-export function render(array, containerId, activeIndices = [], isFinished = false) {
+export function render(arr, containerId, highlightedIndices = []) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    
+
+    // Clear existing bars
     container.innerHTML = '';
-    array.forEach((val, idx) => {
+
+    arr.forEach((value, index) => {
         const bar = document.createElement('div');
         bar.className = 'bar';
-        bar.style.height = `${val}%`;
         
-        if (isFinished) {
-            bar.style.backgroundColor = "#2ecc71"; // Solid Green
-        } else if (activeIndices.includes(idx)) {
-            // Active comparison bars turn Red to stand out
-            bar.style.backgroundColor = "#FF0000"; 
+        // Calculate height based on value (assuming max value is ~100)
+        bar.style.height = `${value}%`;
+        
+        // Apply highlighting
+        if (highlightedIndices.includes(index)) {
+            bar.style.backgroundColor = '#e74c3c'; // Red for active
         } else {
-            // Rainbow effect
-            const hue = val * 2.4; 
-            bar.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
+            bar.style.backgroundColor = '#3498db'; // Standard blue
         }
-        
+
         container.appendChild(bar);
     });
 }
