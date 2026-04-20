@@ -18,21 +18,22 @@ export async function partition(arr, left, right, containerId, mySteps) {
     
     let pivot = arr[right]; 
     let i = left - 1;
-    updateStats('quick', 'comp');
-    
+
     for (let j = left; j <= right - 1; j++) {
         if (state.isResetting) return;
+        updateStats('quick', 'comp');
         render(arr, containerId, [j, right, i]);
         playNote(arr[j], 'square');
         await wait(mySteps);
-        updateStats('quick', 'swap');
 
         if (arr[j] < pivot) {
             i++;
+            updateStats('quick', 'swap');
             [arr[i], arr[j]] = [arr[j], arr[i]];
         }
     }
     // Swap pivot into correct place
+    updateStats('quick', 'swap');
     [arr[i + 1], arr[right]] = [arr[right], arr[i + 1]];
     render(arr, containerId, [i + 1]);
     return i + 1;
