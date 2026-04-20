@@ -70,3 +70,13 @@ export function updateStats(algo, type) {
     document.getElementById(`${algo}-comps`).innerText = state.stats[algo].comps;
     document.getElementById(`${algo}-swaps`).innerText = state.stats[algo].swaps;
 }
+
+export function resetStats() {
+    Object.keys(state.stats).forEach(key => {
+        state.stats[key].comps = 0;
+        state.stats[key].swaps = 0;
+        // Update DOM to 0
+        document.getElementById(`${key}-comps`).innerText = 0;
+        document.getElementById(`${key}-swaps`).innerText = 0;
+    });
+}
