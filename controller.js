@@ -38,25 +38,29 @@ export const wait = (localStepTracker) => {
     });
 };
 
-export function render(arr, containerId, highlightedIndices = []) {
-    const container = document.getElementById(containerId);
+export function render(algo, arr, highlightedIndices = [], isFinished = false) {
+    const container = document.getElementById(`${algo}-container`);
     if (!container) return;
 
-    // Clear existing bars
     container.innerHTML = '';
 
     arr.forEach((value, index) => {
         const bar = document.createElement('div');
         bar.className = 'bar';
-        
-        // Calculate height based on value (assuming max value is ~100)
         bar.style.height = `${value}%`;
-        
-        // Apply highlighting
-        if (highlightedIndices.includes(index)) {
-            bar.style.backgroundColor = '#e74c3c'; // Red for active
+
+        // --- COLOR LOGIC ---
+        if (isFinished) {
+            // 1. Finished State: Bright Green
+            bar.style.backgroundColor = '#2ecc71'; 
+        } else if (highlightedIndices.includes(index)) {
+            // 2. Active/Comparison State: White or Red
+            bar.style.backgroundColor = '#ffffff';
         } else {
-            bar.style.backgroundColor = '#3498db'; // Standard blue
+            // 3. Normal State: Rainbow Pattern
+            // Map value (0-100) to Hue (200-300 is blue/purple, 0-360 is full rainbow)
+            const hue = (value / 100) * 280; 
+            bar.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
         }
 
         container.appendChild(bar);
