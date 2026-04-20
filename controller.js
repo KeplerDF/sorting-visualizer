@@ -2,7 +2,13 @@ export const state = {
     delay: 100,
     isPaused: false,
     isResetting: false,
-    stepCount: 0
+    stepCount: 0,
+    stats: {
+        bubble: { comps: 0, swaps: 0 },
+        quick: { comps: 0, swaps: 0 },
+        merge: { comps: 0, swaps: 0 },
+        heap: { comps: 0, swaps: 0 }
+    }
 };
 
 export const wait = (localStepTracker) => {
@@ -55,4 +61,12 @@ export function render(array, containerId, activeIndices = [], isFinished = fals
         
         container.appendChild(bar);
     });
+}
+
+export function updateStats(algo, type) {
+    if (type === 'comp') state.stats[algo].comps++;
+    if (type === 'swap') state.stats[algo].swaps++;
+    
+    document.getElementById(`${algo}-comps`).innerText = state.stats[algo].comps;
+    document.getElementById(`${algo}-swaps`).innerText = state.stats[algo].swaps;
 }
