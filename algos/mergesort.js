@@ -37,7 +37,6 @@ export async function mergeSort(arr, left, right, containerId, mySteps) {
 async function merge(arr, start, mid, end, containerId, mySteps) {
     let leftPart = arr.slice(start, mid + 1);
     let rightPart = arr.slice(mid + 1, end + 1);
-    updateStats('merge', 'comp');
 
     let i = 0, j = 0, k = start;
 
@@ -49,27 +48,28 @@ async function merge(arr, start, mid, end, containerId, mySteps) {
         render(arr, containerId, [start + i, mid + 1 + j]); 
         playNote(leftPart[i], 'triangle'); // Use leftPart[i] for accurate frequency
 
+        updateStats('merge', 'comp');
         if (leftPart[i] <= rightPart[j]) {
             arr[k] = leftPart[i++];
         } else {
             arr[k] = rightPart[j++];
         }
+        updateStats('merge', 'swap');
         
         k++;
         render(arr, containerId, [k-1]); // Render the placement
         await wait(mySteps); // Pause here
-        updateStats('merge', 'swap');
     }
 
     // 5. Cleaned up remaining element loops
     while (i < leftPart.length) {
         if (state.isResetting) return;
+        updateStats('merge', 'swap');
         arr[k] = leftPart[i++];
         render(arr, containerId, [k]);
         playNote(arr[k], 'triangle');
         k++;
         await wait(mySteps);
-        updateStats('merge', 'swap');
     }
 
     while (j < rightPart.length) {
@@ -79,6 +79,5 @@ async function merge(arr, start, mid, end, containerId, mySteps) {
         playNote(arr[k], 'triangle');
         k++;
         await wait(mySteps);
-        updateStats('merge', 'swap');
     }
 }
