@@ -15,7 +15,7 @@ export async function bubbleSort(arr,containerId) {
 
             updateStats('bubble', 'comp');
             if (arr[j] > arr[j + 1]) {
-                updateStats('bubble', 'swap')
+                updateStats('bubble', 'swap');
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
                 // Re-render after swap
                 render(arr, containerId, [j, j + 1]);
