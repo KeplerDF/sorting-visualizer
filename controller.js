@@ -58,8 +58,8 @@ export function render(algo, arr, highlightedIndices = [], isFinished = false) {
             bar.style.backgroundColor = '#ffffff';
         } else {
             // 3. Normal State: Rainbow Pattern
-            // Map value (0-100) to Hue (200-300 is blue/purple, 0-360 is full rainbow)
-            const hue = (value / 100) * 280; 
+            // Map value (0-100) to Hue (0-360 for full rainbow)
+            const hue = (value / 100) * 360; 
             bar.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
         }
 
