@@ -38,7 +38,7 @@ export const wait = (localStepTracker) => {
     });
 };
 
-export function render(algo, arr, highlightedIndices = [], isFinished = false) {
+export function render(arr, algo, highlightedIndices = [], isFinished = false) {
     const container = document.getElementById(`${algo}-container`);
     if (!container) return;
 
