@@ -38,7 +38,7 @@ export const wait = (localStepTracker) => {
     });
 };
 
-export function render(algo, arr, highlightedIndices = [], isFinished = false) {
+export function render(arr, algo, highlightedIndices = [], isFinished = false) {
     const container = document.getElementById(`${algo}-container`);
     if (!container) return;
 
@@ -58,8 +58,8 @@ export function render(algo, arr, highlightedIndices = [], isFinished = false) {
             bar.style.backgroundColor = '#ffffff';
         } else {
             // 3. Normal State: Rainbow Pattern
-            // Map value (0-100) to Hue (0-360 for full rainbow)
-            const hue = (value / 100) * 360; 
+            // Map value (0-100) to Hue (200-300 is blue/purple, 0-360 is full rainbow)
+            const hue = (value / 100) * 280; 
             bar.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
         }
 
