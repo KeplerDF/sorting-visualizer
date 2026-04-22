@@ -238,6 +238,43 @@ input[type="range"] {
     padding-left: 5px;
 }
 
+/* --- Recruiter Links --- */
+.recruiter-links {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.recruiter-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, var(--primary), #2980b9);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.recruiter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(52, 152, 219, 0.5);
+    border-color: var(--primary);
+}
+
+.recruiter-btn .icon {
+    font-size: 1.1rem;
+}
+
+.recruiter-btn .text {
+    font-weight: 600;
+}
+
 /* --- Responsive Design --- */
 @media (max-width: 900px) {
     .grid-container { grid-template-columns: 1fr; }
@@ -254,4 +291,25 @@ input[type="range"] {
 
 @media (max-width: 400px) {
     .info-badge .tooltip { width: 180px; }
+}
+
+/* Responsive design for recruiter links */
+@media (max-width: 900px) {
+    .recruiter-links {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .recruiter-links {
+        flex: 1 1 100%;
+        justify-content: space-between;
+    }
+    
+    .recruiter-btn {
+        flex: 1;
+        justify-content: center;
+    }
 }
