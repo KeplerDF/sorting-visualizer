@@ -50,28 +50,28 @@ window.startRace = async function() {
             const copy = [...masterArray];
             await bubbleSort(copy, "bubble-container");
             // We render the COPY (which is now sorted), not the masterArray
-            render(copy, "bubble-container", [], true);
+            render("bubble", copy, [], true);
             playSuccessArpeggio('sine');
         })(),
             
         (async () => {
             const copy = [...masterArray];
             await quickSort(copy, 0, copy.length - 1, "quick-container");
-            render(copy, "quick-container", [], true);
+            render("quick", copy, [], true);
             playSuccessArpeggio('square');
         })(),
             
         (async () => {
             const copy = [...masterArray];
             await mergeSort(copy, 0, copy.length - 1, "merge-container");
-            render(copy, "merge-container", [], true);
+            render("merge", copy, [], true);
             playSuccessArpeggio('triangle');
         })(),
             
         (async () => {
             const copy = [...masterArray];
             await heapSort(copy, "heap-container");
-            render(copy, "heap-container", [], true);
+            render("heap", copy, [], true);
             playSuccessArpeggio('sawtooth');
         })()
     ]);
@@ -81,12 +81,12 @@ window.startRace = async function() {
 };
 
 function generateNewArray(size = 40) {
-    console.log("Generating array..."); // This means main.js isn't running
+    console.log("Generating array...");
     masterArray = Array.from({length: size}, () => Math.floor(Math.random() * 100));
-    render(masterArray, "bubble-container");
-    render(masterArray, "quick-container");
-    render(masterArray, "merge-container");
-    render(masterArray, "heap-container");
+    render("bubble", masterArray);      // Change this order
+    render("quick", masterArray);       // Change this order
+    render("merge", masterArray);       // Change this order
+    render("heap", masterArray);        // Change this order
 }
 
 window.resetRace = function() {
