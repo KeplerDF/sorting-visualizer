@@ -172,7 +172,7 @@ input[type="range"] {
     border-radius: 8px;
     border: 1px solid var(--primary);
     position: absolute;
-    bottom: 130%;
+    top: 130%;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
