@@ -55,7 +55,7 @@ export function render(arr, algo, highlightedIndices = [], isFinished = false) {
             bar.style.backgroundColor = '#2ecc71'; 
         } else if (highlightedIndices.includes(index)) {
             // 2. Active/Comparison State: White or Red
-            bar.style.backgroundColor = '#ffffff';
+            bar.style.backgroundColor = '#FF0000';
         } else {
             // 3. Normal State: Rainbow Pattern
             // Map value (0-100) to Hue (200-300 is blue/purple, 0-360 is full rainbow)
