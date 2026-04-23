@@ -104,11 +104,12 @@ window.resetRace = function() {
     // This effectively "clears" the old sorted bars
     setTimeout(() => {
         generateNewArray();
+        resetStats();
         document.getElementById('status').innerText = "Status: Reset Complete";
     }, 50);
 
     // 4. Reset Stats
-    resetStats()
+    
 };
 
 document.addEventListener('DOMContentLoaded', () => {
