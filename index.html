@@ -19,7 +19,211 @@
     <section id="sorting-section" class="tab-content">
         <div class="controls">
             </div>
+            <div class="controls">
+                <button id="muteBtn" onclick="handleMute()">🔊 Mute</button>
+                <button onclick="startRace()">Start Race</button>
+                <button id="startBtn" onclick="togglePlay()">Pause</button>
+                <button id="stepBtn" onclick="triggerStep()" disabled>Step Forward</button>
+                <button onclick="resetRace()">Reset</button>
 
+            <div class="slider-group">
+        <span>Speed: </span>
+        <input type="range" id="speed" min="1" max="200" value="100">
+        </div>
+
+    <!-- Links section -->
+        <div class="recruiter-links">
+            <a href="https://www.linkedin.com/in/daniel-fomin/" target="_blank" class="recruiter-btn">
+                <img src="data:image/png;base64,
+                    iVBORw0KGgoAAAANSUhEUgAAADAAA
+                    AAwCAYAAABXAvmHAAAACXBIWXMAAAsT
+                    AAALEwEAmpwYAAACDUlEQVR4nO2YO0sDQRD
+                    HVyxsxUqwVVs/gZWdGiz9EqI5xdwWYqEE7FJY2F
+                    lYWlvYxIjmiagkuxGNwSKFEsTEPIzvjOyteWhynHfC3
+                    R7sH4bjdpa5+e3MLsciJCUlJSW21PQMUukhwrSKMAWbrIowD
+                    SGVeP6XPCYbNiYNOua3vvLOJw/cyLQFAK1tBEieAlLpgQUAUhGoA
+                    mXzAHrBfElAShzQQoQ/2bsdEKalk/zoegKOrotQff2A42wRRtYS9kCYVr
+                    cgSlxLul2HmSKvhCsAFiLayrer8vLB28kVAIrbK+Dje4BBsEqEMgUYdtUewG4
+                    /hbwxQPPhTmPjRn41BWjppDXH+70Ay2fsnLcJYP4YuomNG/mHVuIQOMhB+rYKz2+f8
+                    Fh711pxbvcK+pZixpV0EmDMn4B8+RX0dJorw+BKnFdJRIDsfQ2MFMoUoEeJignwV01upfRb
+                    yUmAz3pd6/+JzSTMbqcheFnoOm8nccc3umgAq3s3PDHW474k9C7GYP/ioWPeVf6pdaKJBDCAoz+PS
+                    l8SxgPnHfNKz+/6vyVOAdTrbf6mEehXYzpzw2IBcH/YfCwsAagEaEgCYAlAJQCSAGbVLYg3yj/w29j4X/x
+                    mYuH/Aoh0taiSknkAdj/vdOK4YSRopQIecSqQmjIPwKvgdzx5TNetJd+EINPa/byde0Jl3yJB6ysvJSUlhWzSF9
+                    z1VFjYNi3YAAAAAElFTkSuQmCC" alt="linkedin">
+                <span class="text">LinkedIn</span>
+            </a>
+            <a href="https://github.com/KeplerDF" target="_blank" class="recruiter-btn">
+                <img src="data:image/png;base64,
+                    iVBORw0KGgoAAAANSUhEUgAAADIAA
+                    AAyCAYAAAAeP4ixAAAACXBIWXMAAAsTA
+                    AALEwEAmpwYAAADtklEQVR4nO2ZSWgVQ
+                    RCGP2OCS3CJYoy7uCtiDi6o8aAIikvQi4oG
+                    vCiiRo2E6FXJQdxQg4LgUTx4cyPuHhVRD0bcsyDu
+                    4IJrTNTnSEMNPOfNm1czb2YSJD8UDNNT1fV3V1dX90
+                    AH/l8UAEuBfUAt8Bj4CLSKmOdH0ma+WQL0pp2gC1AGXAJ+A5Z
+                    PMToXgFViK3Z0AyqBVwGcTycvga1A17hILAAaQiTglHpgfpQEzNTXREjAKcdl5kNF
+                    f+BOjCQskVtAYVgkhst0W20kT8WHrNBP0qjVxtIAFAUl0bWNwsnyCLNAKfpoO3DecsjhI
+                    CnWy+B2CbspwA7gWRbOmd1+G1As1cGBDN/P05LoptgnBruEoSH0A7gKVACzgNFAvsgYebcROAN8BTYDnR2
+                    2ihWLXxVilYpRTLf75mlHy+PbAYr+zUB5oouy7Ah9o0pCkaL/F5lmpUwZ1+MiJFKi9GGll5FLSiPLIyRSrvThfDoD
+                    BT5K8eoIiRxT+vAL6OlmYKnSwGdZkFFhPPBT6Uupm4H9SmWT56PGSaUve92Ua5XK02Igskzpy1k35afKuMyNgchYJRFT
+                    0KbgvULRfBMHhiiJvHNTblUomm86xUBkoiMKPor8cfjT4qZsZ4rZUu+MAPoAA+XZljiIJCNXtoYC6dtUFYOSBjYFn6TxJnA
+                    XaJRQeiPPtqwgehz2iIrvScvAzFIKnkjjNUmxWyRPm4p1khw37VGJGjnS11BggmTKRVI575a7MPsIkIKL0rhLqsuDwCngOlAns/F
+                    BpnN1xLPRIqPdBDwAbgPngCNyFtrvVaZUKzOFkW8yU2FjncuC9pKdbkbm+jBgpBlYE1KomZJ8j08SRua4GeuuTMFOuSFryXnS0yBfBqMxQL
+                    8tXucie504xZxT1soGlM7wW+AEsEFGaiTQK8l2XznHmOvQKikvvgYgYImYkiotSj1SXomcwd8qw65KbihtFMq75iyct5JkYaa015RGsU7apwJfMpAw
+                    pNOhJAQy9eKLJyo8DJhcbpcQFyU07J84z4ErwOJMHQDrsyRSrr3duBckLn0gx6MPK4Pc9VOBzwQSLkYSIe4fGwKQSADT/XZ0JI2xT3KxNlgTpx4YFYBITZCO8q
+                    Tu8tNRZ5/2/di+7PMC8B/09BnLfqG1+yCMP8DDgIdtSOS+nBhDQQ+pNOMmciWKf/F5UmInYiCSAA5FfdExWc4HURGpA2YQE3IlBTc4fvj7xeskfWNrU0zXTSnIkbLldF
+                    L54gelorswyz2pAx0gIvwFLXDNiM6zHVAAAAAASUVORK5CYII=" alt="github">
+                <span class="text">GitHub</span>
+            </a>
+        </div>
+
+            <div id="status">Status: Ready</div>
+        </div>
+
+        <div class="grid-container">
+            
+            <div class="algo-card">
+                <div class="card-header">
+                    <div class="title-group">
+                        <h3>Bubble Sort</h3>
+                        <div class="info-badge">i
+                            <span class="tooltip">
+                                <strong>Time:</strong> O(n²)<br>
+                                <strong>Space:</strong> O(1)<br>
+                                <strong>Stable:</strong> Yes<br>
+                                <em>Inefficient for large lists but great for teaching.</em>
+                            </span>
+                        </div>
+                    </div>
+                    <span class="complexity-label label-slow">O(n²)</span>
+                </div>
+
+                <div id="bubble-container" class="bar-container"></div>
+                
+                <div class="stats-row">
+                    <span>Comparisons: <b id="bubble-comps">0</b></span>
+                    <span>Swaps: <b id="bubble-swaps">0</b></span>
+                </div>
+
+                <div class="code-wrapper">
+                    <pre class="code-view" id="bubble-code">
+        for (i from 0 to n-1) {
+        for (j from 0 to n-i-1) {
+            if (arr[j] > arr[j+1]) {
+            swap(arr[j], arr[j+1]);
+            }
+        }
+        }</pre>
+                </div>
+            </div>
+
+            <div class="algo-card">
+                <div class="card-header">
+                    <div class="title-group">
+                        <h3>Quick Sort</h3>
+                        <div class="info-badge">i
+                            <span class="tooltip">
+                                <strong>Time:</strong> O(n log n)<br>
+                                <strong>Space:</strong> O(log n)<br>
+                                <strong>Stable:</strong> No<br>
+                                <em>Fastest in practice for most datasets.</em>
+                            </span>
+                        </div>
+                    </div>
+                    <span class="complexity-label label-efficient">O(n log n)</span>
+                </div>
+
+                <div id="quick-container" class="bar-container"></div>
+                
+                <div class="stats-row">
+                    <span>Comparisons: <b id="quick-comps">0</b></span>
+                    <span>Swaps: <b id="quick-swaps">0</b></span>
+                </div>
+
+                <div class="code-wrapper">
+                    <pre class="code-view" id="quick-code">
+        quickSort(arr, low, high) {
+        if (low < high) {
+            p = partition(arr, low, high);
+            quickSort(arr, low, p-1);
+            quickSort(arr, p+1, high);
+        }
+        }</pre>
+                </div>
+            </div>
+
+            <div class="algo-card">
+                <div class="card-header">
+                    <div class="title-group">
+                        <h3>Merge Sort</h3>
+                        <div class="info-badge">i
+                            <span class="tooltip">
+                                <strong>Time:</strong> O(n log n)<br>
+                                <strong>Space:</strong> O(n)<br>
+                                <strong>Stable:</strong> Yes<br>
+                                <em>Guaranteed speed even in worst-case.</em>
+                            </span>
+                        </div>
+                    </div>
+                    <span class="complexity-label label-efficient">O(n log n)</span>
+                </div>
+
+                <div id="merge-container" class="bar-container"></div>
+                
+                <div class="stats-row">
+                    <span>Comparisons: <b id="merge-comps">0</b></span>
+                    <span>Swaps: <b id="merge-swaps">0</b></span>
+                </div>
+
+                <div class="code-wrapper">
+                    <pre class="code-view" id="merge-code">
+        mergeSort(arr, l, r) {
+        if (l < r) {
+            m = l + (r-l)/2;
+            mergeSort(arr, l, m);
+            mergeSort(arr, m+1, r);
+            merge(arr, l, m, r);
+        }
+        }</pre>
+                </div>
+            </div>
+
+            <div class="algo-card">
+                <div class="card-header">
+                    <div class="title-group">
+                        <h3>Heap Sort</h3>
+                        <div class="info-badge">i
+                            <span class="tooltip">
+                                <strong>Time:</strong> O(n log n)<br>
+                                <strong>Space:</strong> O(1)<br>
+                                <strong>Stable:</strong> No<br>
+                                <em>Memory efficient O(n log n) sort.</em>
+                            </span>
+                        </div>
+                    </div>
+                    <span class="complexity-label label-efficient">O(n log n)</span>
+                </div>
+
+                <div id="heap-container" class="bar-container"></div>
+                
+                <div class="stats-row">
+                    <span>Comparisons: <b id="heap-comps">0</b></span>
+                    <span>Swaps: <b id="heap-swaps">0</b></span>
+                </div>
+
+                <div class="code-wrapper">
+                    <pre class="code-view" id="heap-code">
+        heapSort(arr) {
+        buildMaxHeap(arr);
+        for (i from n-1 to 0) {
+            swap(arr[0], arr[i]);
+            heapify(arr, i, 0);
+        }
+        }</pre>
+                </div>
+            </div>
+
+        </div>
         <div class="grid-container">
             </div>
     </section>
@@ -38,211 +242,7 @@
         </div>
     </section>
 
-<div class="controls">
-    <button id="muteBtn" onclick="handleMute()">🔊 Mute</button>
-    <button onclick="startRace()">Start Race</button>
-    <button id="startBtn" onclick="togglePlay()">Pause</button>
-    <button id="stepBtn" onclick="triggerStep()" disabled>Step Forward</button>
-    <button onclick="resetRace()">Reset</button>
 
-    <div class="slider-group">
-        <span>Speed: </span>
-        <input type="range" id="speed" min="1" max="200" value="100">
-    </div>
-
-    <!-- Links section -->
-    <div class="recruiter-links">
-        <a href="https://www.linkedin.com/in/daniel-fomin/" target="_blank" class="recruiter-btn">
-            <img src="data:image/png;base64,
-                iVBORw0KGgoAAAANSUhEUgAAADAAA
-                AAwCAYAAABXAvmHAAAACXBIWXMAAAsT
-                AAALEwEAmpwYAAACDUlEQVR4nO2YO0sDQRD
-                HVyxsxUqwVVs/gZWdGiz9EqI5xdwWYqEE7FJY2F
-                lYWlvYxIjmiagkuxGNwSKFEsTEPIzvjOyteWhynHfC3
-                R7sH4bjdpa5+e3MLsciJCUlJSW21PQMUukhwrSKMAWbrIowD
-                SGVeP6XPCYbNiYNOua3vvLOJw/cyLQFAK1tBEieAlLpgQUAUhGoA
-                mXzAHrBfElAShzQQoQ/2bsdEKalk/zoegKOrotQff2A42wRRtYS9kCYVr
-                cgSlxLul2HmSKvhCsAFiLayrer8vLB28kVAIrbK+Dje4BBsEqEMgUYdtUewG4
-                /hbwxQPPhTmPjRn41BWjppDXH+70Ay2fsnLcJYP4YuomNG/mHVuIQOMhB+rYKz2+f8
-                Fh711pxbvcK+pZixpV0EmDMn4B8+RX0dJorw+BKnFdJRIDsfQ2MFMoUoEeJignwV01upfRb
-                yUmAz3pd6/+JzSTMbqcheFnoOm8nccc3umgAq3s3PDHW474k9C7GYP/ioWPeVf6pdaKJBDCAoz+PS
-                l8SxgPnHfNKz+/6vyVOAdTrbf6mEehXYzpzw2IBcH/YfCwsAagEaEgCYAlAJQCSAGbVLYg3yj/w29j4X/x
-                mYuH/Aoh0taiSknkAdj/vdOK4YSRopQIecSqQmjIPwKvgdzx5TNetJd+EINPa/byde0Jl3yJB6ysvJSUlhWzSF9
-                z1VFjYNi3YAAAAAElFTkSuQmCC" alt="linkedin">
-            <span class="text">LinkedIn</span>
-        </a>
-        <a href="https://github.com/KeplerDF" target="_blank" class="recruiter-btn">
-            <img src="data:image/png;base64,
-                iVBORw0KGgoAAAANSUhEUgAAADIAA
-                AAyCAYAAAAeP4ixAAAACXBIWXMAAAsTA
-                AALEwEAmpwYAAADtklEQVR4nO2ZSWgVQ
-                RCGP2OCS3CJYoy7uCtiDi6o8aAIikvQi4oG
-                vCiiRo2E6FXJQdxQg4LgUTx4cyPuHhVRD0bcsyDu
-                4IJrTNTnSEMNPOfNm1czb2YSJD8UDNNT1fV3V1dX90
-                AH/l8UAEuBfUAt8Bj4CLSKmOdH0ma+WQL0pp2gC1AGXAJ+A5Z
-                PMToXgFViK3Z0AyqBVwGcTycvga1A17hILAAaQiTglHpgfpQEzNTXREjAKcdl5kNF
-                f+BOjCQskVtAYVgkhst0W20kT8WHrNBP0qjVxtIAFAUl0bWNwsnyCLNAKfpoO3DecsjhI
-                CnWy+B2CbspwA7gWRbOmd1+G1As1cGBDN/P05LoptgnBruEoSH0A7gKVACzgNFAvsgYebcROAN8BTYDnR2
-                2ihWLXxVilYpRTLf75mlHy+PbAYr+zUB5oouy7Ah9o0pCkaL/F5lmpUwZ1+MiJFKi9GGll5FLSiPLIyRSrvThfDoD
-                BT5K8eoIiRxT+vAL6OlmYKnSwGdZkFFhPPBT6Uupm4H9SmWT56PGSaUve92Ua5XK02Igskzpy1k35afKuMyNgchYJRFT
-                0KbgvULRfBMHhiiJvHNTblUomm86xUBkoiMKPor8cfjT4qZsZ4rZUu+MAPoAA+XZljiIJCNXtoYC6dtUFYOSBjYFn6TxJnA
-                XaJRQeiPPtqwgehz2iIrvScvAzFIKnkjjNUmxWyRPm4p1khw37VGJGjnS11BggmTKRVI575a7MPsIkIKL0rhLqsuDwCngOlAns/F
-                BpnN1xLPRIqPdBDwAbgPngCNyFtrvVaZUKzOFkW8yU2FjncuC9pKdbkbm+jBgpBlYE1KomZJ8j08SRua4GeuuTMFOuSFryXnS0yBfBqMxQL
-                8tXucie504xZxT1soGlM7wW+AEsEFGaiTQK8l2XznHmOvQKikvvgYgYImYkiotSj1SXomcwd8qw65KbihtFMq75iyct5JkYaa015RGsU7apwJfMpAw
-                pNOhJAQy9eKLJyo8DJhcbpcQFyU07J84z4ErwOJMHQDrsyRSrr3duBckLn0gx6MPK4Pc9VOBzwQSLkYSIe4fGwKQSADT/XZ0JI2xT3KxNlgTpx4YFYBITZCO8q
-                Tu8tNRZ5/2/di+7PMC8B/09BnLfqG1+yCMP8DDgIdtSOS+nBhDQQ+pNOMmciWKf/F5UmInYiCSAA5FfdExWc4HURGpA2YQE3IlBTc4fvj7xeskfWNrU0zXTSnIkbLldF
-                L54gelorswyz2pAx0gIvwFLXDNiM6zHVAAAAAASUVORK5CYII=" alt="github">
-            <span class="text">GitHub</span>
-        </a>
-    </div>
-
-    <div id="status">Status: Ready</div>
-</div>
-
-<div class="grid-container">
-    
-    <div class="algo-card">
-        <div class="card-header">
-            <div class="title-group">
-                <h3>Bubble Sort</h3>
-                <div class="info-badge">i
-                    <span class="tooltip">
-                        <strong>Time:</strong> O(n²)<br>
-                        <strong>Space:</strong> O(1)<br>
-                        <strong>Stable:</strong> Yes<br>
-                        <em>Inefficient for large lists but great for teaching.</em>
-                    </span>
-                </div>
-            </div>
-            <span class="complexity-label label-slow">O(n²)</span>
-        </div>
-
-        <div id="bubble-container" class="bar-container"></div>
-        
-        <div class="stats-row">
-            <span>Comparisons: <b id="bubble-comps">0</b></span>
-            <span>Swaps: <b id="bubble-swaps">0</b></span>
-        </div>
-
-        <div class="code-wrapper">
-            <pre class="code-view" id="bubble-code">
-for (i from 0 to n-1) {
-  for (j from 0 to n-i-1) {
-    if (arr[j] > arr[j+1]) {
-      swap(arr[j], arr[j+1]);
-    }
-  }
-}</pre>
-        </div>
-    </div>
-
-    <div class="algo-card">
-        <div class="card-header">
-            <div class="title-group">
-                <h3>Quick Sort</h3>
-                <div class="info-badge">i
-                    <span class="tooltip">
-                        <strong>Time:</strong> O(n log n)<br>
-                        <strong>Space:</strong> O(log n)<br>
-                        <strong>Stable:</strong> No<br>
-                        <em>Fastest in practice for most datasets.</em>
-                    </span>
-                </div>
-            </div>
-            <span class="complexity-label label-efficient">O(n log n)</span>
-        </div>
-
-        <div id="quick-container" class="bar-container"></div>
-        
-        <div class="stats-row">
-            <span>Comparisons: <b id="quick-comps">0</b></span>
-            <span>Swaps: <b id="quick-swaps">0</b></span>
-        </div>
-
-        <div class="code-wrapper">
-            <pre class="code-view" id="quick-code">
-quickSort(arr, low, high) {
-  if (low < high) {
-    p = partition(arr, low, high);
-    quickSort(arr, low, p-1);
-    quickSort(arr, p+1, high);
-  }
-}</pre>
-        </div>
-    </div>
-
-    <div class="algo-card">
-        <div class="card-header">
-            <div class="title-group">
-                <h3>Merge Sort</h3>
-                <div class="info-badge">i
-                    <span class="tooltip">
-                        <strong>Time:</strong> O(n log n)<br>
-                        <strong>Space:</strong> O(n)<br>
-                        <strong>Stable:</strong> Yes<br>
-                        <em>Guaranteed speed even in worst-case.</em>
-                    </span>
-                </div>
-            </div>
-            <span class="complexity-label label-efficient">O(n log n)</span>
-        </div>
-
-        <div id="merge-container" class="bar-container"></div>
-        
-        <div class="stats-row">
-            <span>Comparisons: <b id="merge-comps">0</b></span>
-            <span>Swaps: <b id="merge-swaps">0</b></span>
-        </div>
-
-        <div class="code-wrapper">
-            <pre class="code-view" id="merge-code">
-mergeSort(arr, l, r) {
-  if (l < r) {
-    m = l + (r-l)/2;
-    mergeSort(arr, l, m);
-    mergeSort(arr, m+1, r);
-    merge(arr, l, m, r);
-  }
-}</pre>
-        </div>
-    </div>
-
-    <div class="algo-card">
-        <div class="card-header">
-            <div class="title-group">
-                <h3>Heap Sort</h3>
-                <div class="info-badge">i
-                    <span class="tooltip">
-                        <strong>Time:</strong> O(n log n)<br>
-                        <strong>Space:</strong> O(1)<br>
-                        <strong>Stable:</strong> No<br>
-                        <em>Memory efficient O(n log n) sort.</em>
-                    </span>
-                </div>
-            </div>
-            <span class="complexity-label label-efficient">O(n log n)</span>
-        </div>
-
-        <div id="heap-container" class="bar-container"></div>
-        
-        <div class="stats-row">
-            <span>Comparisons: <b id="heap-comps">0</b></span>
-            <span>Swaps: <b id="heap-swaps">0</b></span>
-        </div>
-
-        <div class="code-wrapper">
-            <pre class="code-view" id="heap-code">
-heapSort(arr) {
-  buildMaxHeap(arr);
-  for (i from n-1 to 0) {
-    swap(arr[0], arr[i]);
-    heapify(arr, i, 0);
-  }
-}</pre>
-        </div>
-    </div>
-
-</div>
 
 <script type="module" src="main.js"></script>
 </body>
