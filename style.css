@@ -331,3 +331,74 @@ input[type="range"] {
         justify-content: center;
     }
 }
+
+/* --- Data Structures Tab --- */
+.ds-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: var(--bg-card);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.ds-controls {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#ds-input {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background: #111;
+    color: white;
+    width: 100px;
+}
+
+/* The Stage */
+#visual-stage {
+    min-height: 300px;
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    border: 2px dashed #444;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Stack View: Bottom to Top */
+.stack-view {
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+/* Queue View: Left to Right */
+.queue-view {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Individual Node */
+.ds-node {
+    width: 60px;
+    height: 40px;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-weight: bold;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}

@@ -224,14 +224,28 @@
             </div>
 
         </div>
-        <div class="grid-container">
-            </div>
+        <div class="grid-container"></div>
     </section>
 
     <section id="datastructures-section" class="tab-content" style="display:none;">
-        <div style="padding: 50px; text-align: center;">
-            <h2>Data Structures Visualizer</h2>
-            <p>Coming soon: Interactive Linked Lists and Binary Trees.</p>
+        <div class="ds-container">
+            <div class="ds-controls">
+                <input type="text" id="ds-input" placeholder="Value (e.g. 42)">
+                <button onclick="pushStack()">Push</button>
+                <button onclick="popStack()">Pop</button>
+                <button onclick="clearStack()">Clear</button>
+                <button onclick="enqueue()">Enqueue</button>
+                <button onclick="dequeue()">Dequeue</button>
+                <button onclick="clearQueue()">Clear</button>
+            </div>
+
+            <div id="visual-stage" class="stack-view">
+                </div>
+
+            <div class="ds-info">
+                <h3 id="ds-title">Stack (LIFO)</h3>
+                <p id="ds-description">Last In, First Out. Like a stack of plates.</p>
+            </div>
         </div>
     </section>
 
@@ -242,7 +256,7 @@
         </div>
     </section>
 
-
+<script src="ds-visualizer.js"></script>
 
 <script type="module" src="main.js"></script>
 </body>
