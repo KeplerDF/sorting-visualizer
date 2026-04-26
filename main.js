@@ -3,6 +3,7 @@ import { quickSort } from './algos/quicksort.js';
 import { mergeSort } from './algos/mergesort.js';
 import { heapSort } from './algos/heapsort.js';
 
+import './router.js';
 import { state, wait, render, resetStats} from './controller.js';
 import { toggleMute, playNote, playSuccessArpeggio } from './audio.js';
  

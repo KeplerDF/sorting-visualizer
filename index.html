@@ -1,23 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<nav class="main-nav">
-    <button class="nav-link active" data-target="sorting-section">Sorting Race</button>
-    <button class="nav-link" data-target="datastructures-section">DataStructures</button>
-    <button class="nav-link" data-target="theory-section">Algorithm Theory</button>
-</nav>
-
-<section id="sorting-section" class="tab-content">
-    </section>
-
-<section id="datastructures-section" class="tab-content" style="display:none;">
-    <h2>Data Structures Visualizer coming soon...</h2>
-</section>
-
-<section id="theory-section" class="tab-content" style="display:none;">
-    <h2>Algorithm Theory coming soon...</h2>
-</section>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +8,35 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="data:,">
 </head>
-<body>
+
+<body> 
+    <nav class="main-nav">
+        <button class="nav-link active" data-target="sorting-section">Sorting Race</button>
+        <button class="nav-link" data-target="datastructures-section">DataStructures</button>
+        <button class="nav-link" data-target="theory-section">Algorithm Theory</button>
+    </nav>
+
+    <section id="sorting-section" class="tab-content">
+        <div class="controls">
+            </div>
+
+        <div class="grid-container">
+            </div>
+    </section>
+
+    <section id="datastructures-section" class="tab-content" style="display:none;">
+        <div style="padding: 50px; text-align: center;">
+            <h2>Data Structures Visualizer</h2>
+            <p>Coming soon: Interactive Linked Lists and Binary Trees.</p>
+        </div>
+    </section>
+
+    <section id="theory-section" class="tab-content" style="display:none;">
+        <div style="padding: 50px; text-align: center;">
+            <h2>Algorithm Theory</h2>
+            <p>Coming soon: Big O Notation breakdowns.</p>
+        </div>
+    </section>
 
 <div class="controls">
     <button id="muteBtn" onclick="handleMute()">🔊 Mute</button>
