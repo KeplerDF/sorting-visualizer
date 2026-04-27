@@ -39,3 +39,27 @@ window.dequeue = () => {
     data.shift(); // Remove from front
     renderDS('queue');
 };
+
+window.peekDS = () => {
+    if (data.length === 0) {
+        alert("Structure is empty!");
+        return;
+    }
+
+    if (data.length >= 10) {
+        alert("Stack Overflow!");
+        return;
+    }
+    
+    // Highlight the element that would be removed next
+    const nodes = document.querySelectorAll('.ds-node');
+    const targetIndex = stage.className === 'stack-view' ? nodes.length - 1 : 0;
+    
+    nodes[targetIndex].style.backgroundColor = 'var(--warning)';
+    nodes[targetIndex].style.transform = 'scale(1.1)';
+    
+    setTimeout(() => {
+        nodes[targetIndex].style.backgroundColor = 'var(--primary)';
+        nodes[targetIndex].style.transform = 'scale(1)';
+    }, 1000);
+};

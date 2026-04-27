@@ -386,6 +386,7 @@ input[type="range"] {
 
 /* Individual Node */
 .ds-node {
+    position: relative;
     width: 60px;
     height: 40px;
     background: var(--primary);
@@ -396,6 +397,33 @@ input[type="range"] {
     border-radius: 4px;
     font-weight: bold;
     animation: slideIn 0.3s ease-out;
+}
+
+.ds-node::after {
+    position: absolute;
+    right: -70px;
+    color: var(--warning);
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* If it's the last element in a Stack, label it TOP */
+.stack-view .ds-node:last-child::after {
+    content: "← TOP";
+}
+
+/* Labels for Queue */
+.queue-view .ds-node:first-child::after {
+    content: "← FRONT";
+    bottom: -20px;
+    right: 0;
+}
+
+.queue-view .ds-node:last-child::after {
+    content: "← REAR";
+    top: -20px;
+    right: 0;
 }
 
 @keyframes slideIn {
