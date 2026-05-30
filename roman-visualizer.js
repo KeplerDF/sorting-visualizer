@@ -1,26 +1,25 @@
-// roman-visualizer.js (Top of the file)
+// roman-visualizer.js
 const canvas = document.getElementById('castrumCanvas');
 const ctx = canvas.getContext('2d');
 const statusText = document.getElementById('castrum-status');
 
-// Explicitly set the internal drawing resolution coordinates
+// Explicitly set internal canvas system resolution coordinates
 canvas.width = 800;
 canvas.height = 500;
 
-const GRID_SIZE = 20; // Size of each cell in pixels
+const GRID_SIZE = 20; 
 const COLS = canvas.width / GRID_SIZE; // 40 columns
 const ROWS = canvas.height / GRID_SIZE; // 25 rows
 
-// Map States
 const PHASES = {
     MARCH: 'MARCHING TO SITE',
-    SURVEY: 'SURVEYING GRID (CARDO & DECUMANUS)',
+    SURVEY: 'SURVEYING GRID',
     BUILD: 'CONSTRUCTING CASTRUM',
     LIVE: 'ESTABLISHED CAMP LIFE',
     DEMOLISH: 'PACKING BAGGAGE (VAS VASA)'
 };
 
-let currentPhase = PHASES.BUILD;
+let currentPhase = PHASES.MARCH;
 let phaseTimer = 0;
 let grid = [];
 let particles = [];
@@ -28,7 +27,7 @@ let luggageTrain = [];
 let buildIndex = 0;
 let buildSequence = [];
 
-// Initialize data maps
+// Initialize data structure maps immediately on boot
 function initGrid() {
     grid = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
     buildSequence = [];
@@ -36,31 +35,29 @@ function initGrid() {
     luggageTrain = [];
     particles = [];
 
-    // Define standard Castrum cross layouts (Decumanus & Cardo)
     const midRow = Math.floor(ROWS / 2);
     const midCol = Math.floor(COLS / 2);
     
-    // Boundary constraints for a rectangular Roman Camp
     const startRow = 4, endRow = ROWS - 5;
     const startCol = 8, endCol = COLS - 9;
 
-    // 1. Order queue: Build walls & Gates first
+    // 1. Queue perimeter defensive works
     for(let c = startCol; c <= endCol; c++) {
-        if(c === midCol) continue; // Leave gap for gate
+        if(c === midCol) continue; 
         buildSequence.push({r: startRow, c, type: 'wall'});
         buildSequence.push({r: endRow, c, type: 'wall'});
     }
     for(let r = startRow; r <= endRow; r++) {
-        if(r === midRow) continue; // Leave gap for gate
+        if(r === midRow) continue; 
         buildSequence.push({r, c: startCol, type: 'wall'});
         buildSequence.push({r, c: endCol, type: 'wall'});
     }
 
-    // 2. Order queue: HQ / Principia in center
+    // 2. Queue Central Command Structures
     buildSequence.push({r: midRow, c: midCol, type: 'hq'});
     buildSequence.push({r: midRow-1, c: midCol, type: 'hq'});
 
-    // 3. Order queue: Barracks rows (Tentoria)
+    // 3. Queue Barracks grid arrays (Tentoria)
     for(let r = startRow + 2; r < endRow - 1; r += 2) {
         if(r === midRow || r === midRow - 1) continue;
         for(let c = startCol + 2; c < endCol - 1; c++) {
@@ -76,24 +73,29 @@ function update() {
     if (currentPhase === PHASES.MARCH) {
         statusText.innerText = currentPhase;
         statusText.style.color = '#3498db';
-        // Simulating single-file soldier march crossing screen
+        
         if (phaseTimer === 1) {
-            for(let i = 0; i < 25; i++) {
-                luggageTrain.push({ x: -i * 15, y: canvas.height / 2, color: '#e74c3c' });
+            luggageTrain = [];
+            for(let i = 0; i < 20; i++) {
+                luggageTrain.push({ x: -i * 20 - 20, y: Math.floor(ROWS/2) * GRID_SIZE + 7, color: '#e74c3c' });
             }
         }
-        luggageTrain.forEach(unit => unit.x += 2);
         
-        if (luggageTrain[0].x > canvas.width + 50) {
+        let allLeft = true;
+        luggageTrain.forEach(unit => {
+            unit.x += 3;
+            if (unit.x < canvas.width + 20) allLeft = false;
+        });
+        
+        if (allLeft && phaseTimer > 100) {
             currentPhase = PHASES.SURVEY;
             phaseTimer = 0;
-            initGrid();
         }
     } 
     else if (currentPhase === PHASES.SURVEY) {
         statusText.innerText = currentPhase;
         statusText.style.color = '#f1c40f';
-        if (phaseTimer > 120) { // 2 seconds survey line render
+        if (phaseTimer > 90) { 
             currentPhase = PHASES.BUILD;
             phaseTimer = 0;
         }
@@ -102,8 +104,8 @@ function update() {
         statusText.innerText = currentPhase;
         statusText.style.color = '#e67e22';
         
-        // Build 3 structures per frame step for dynamic feel
-        for(let i=0; i<3; i++) {
+        // Construct 2 assets per frame cycle
+        for(let i = 0; i < 2; i++) {
             if(buildIndex < buildSequence.length) {
                 const item = buildSequence[buildIndex];
                 grid[item.r][item.c] = item.type;
@@ -119,35 +121,35 @@ function update() {
         statusText.innerText = currentPhase;
         statusText.style.color = '#2ecc71';
 
-        // Continuous cooking fire smoke updates
+        // Animate drifting camp smoke particles
         if(Math.random() < 0.15) {
             const midRow = Math.floor(ROWS / 2);
             const midCol = Math.floor(COLS / 2);
             particles.push({
-                x: (midCol + (Math.random() > 0.5 ? 3 : -3)) * GRID_SIZE + 10,
-                y: (midRow + (Math.random() > 0.5 ? 2 : -2)) * GRID_SIZE + 10,
+                x: (midCol + (Math.random() > 0.5 ? 4 : -4)) * GRID_SIZE + 10,
+                y: (midRow + (Math.random() > 0.5 ? 2 : -3)) * GRID_SIZE + 10,
                 r: Math.random() * 3 + 1,
                 alpha: 1
             });
         }
         particles.forEach((p, idx) => {
-            p.y -= 0.5;
-            p.x += Math.sin(phaseTimer / 10) * 0.2;
-            p.alpha -= 0.01;
+            p.y -= 0.4;
+            p.alpha -= 0.015;
             if(p.alpha <= 0) particles.splice(idx, 1);
         });
 
-        if (phaseTimer > 400) { // Camp thrives for ~6-7 seconds
+        if (phaseTimer > 300) { 
             currentPhase = PHASES.DEMOLISH;
             phaseTimer = 0;
-            // Setup departure column packing out
+            
+            // Spawn baggage column moving outward
             luggageTrain = [];
             const midRow = Math.floor(ROWS / 2);
             const midCol = Math.floor(COLS / 2);
-            for(let i=0; i<20; i++) {
+            for(let i = 0; i < 15; i++) {
                 luggageTrain.push({
-                    x: midCol * GRID_SIZE + 10, 
-                    y: midRow * GRID_SIZE + 10 + (i * 12), 
+                    x: midCol * GRID_SIZE + 7, 
+                    y: (midRow + 3) * GRID_SIZE + (i * 15), 
                     color: '#f39c12' 
                 });
             }
@@ -157,8 +159,8 @@ function update() {
         statusText.innerText = currentPhase;
         statusText.style.color = '#e74c3c';
 
-        // Tear down step loop backwards
-        for(let i=0; i<4; i++) {
+        // Fast clean teardown loops
+        for(let i = 0; i < 3; i++) {
             if(buildIndex > 0) {
                 buildIndex--;
                 const item = buildSequence[buildIndex];
@@ -166,15 +168,15 @@ function update() {
             }
         }
         
-        // Animate the train out of the front gate down the main road axis
-        luggageTrain.forEach(mule => {
-            if(mule.y > canvas.height/2) mule.y -= 1.5; // Walk up to main avenue cross section
-            else mule.x += 2; // Head out straight east out of gate boundary
+        luggageTrain.forEach(unit => {
+            if(unit.y > Math.floor(ROWS/2) * GRID_SIZE + 7) unit.y -= 2; 
+            else unit.x += 3; 
         });
 
-        if(buildIndex === 0 && luggageTrain[luggageTrain.length-1].x > canvas.width) {
+        if(buildIndex === 0 && (luggageTrain.length === 0 || luggageTrain[luggageTrain.length - 1].x > canvas.width)) {
             currentPhase = PHASES.MARCH;
             phaseTimer = 0;
+            initGrid();
         }
     }
 }
@@ -182,30 +184,21 @@ function update() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Render underlying dirt terrain
-    ctx.fillStyle = '#2c3a47';
-    ctx.fillRect(0,0, canvas.width, canvas.height);
+    // Deep slate background color matching your screenshot
+    ctx.fillStyle = '#1e272e';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const midRow = Math.floor(ROWS / 2);
     const midCol = Math.floor(COLS / 2);
 
-    // Draw Surveyor Cross-Axes Routes (Cardo & Decumanus) during survey/active camp phases
+    // Draw main axes layout roadways (Cardo and Decumanus)
     if(currentPhase !== PHASES.MARCH) {
-        ctx.strokeStyle = 'rgba(241, 196, 15, 0.15)';
-        ctx.lineWidth = 2;
-        // Decumanus Maximus (Horizontal East-West Roadway)
-        ctx.beginPath();
-        ctx.moveTo(0, midRow * GRID_SIZE + 10);
-        ctx.lineTo(canvas.width, midRow * GRID_SIZE + 10);
-        ctx.stroke();
-        // Cardo Maximus (Vertical North-South Roadway)
-        ctx.beginPath();
-        ctx.moveTo(midCol * GRID_SIZE + 10, 0);
-        ctx.lineTo(midCol * GRID_SIZE + 10, canvas.height);
-        ctx.stroke();
+        ctx.fillStyle = '#2c3a47'; // Roadway fill lane
+        ctx.fillRect(0, midRow * GRID_SIZE + 2, canvas.width, GRID_SIZE - 4);
+        ctx.fillRect(midCol * GRID_SIZE + 2, 0, GRID_SIZE - 4, canvas.height);
     }
 
-    // Render Grid Asset structures
+    // Render Grid Objects
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             const cell = grid[r][c];
@@ -217,12 +210,11 @@ function draw() {
             if (cell === 'wall') {
                 ctx.fillStyle = '#7f8c8d';
                 ctx.fillRect(x + 2, y + 2, GRID_SIZE - 4, GRID_SIZE - 4);
-                ctx.strokeStyle = '#95a5a6';
+                ctx.strokeStyle = '#d2dae2';
                 ctx.strokeRect(x + 2, y + 2, GRID_SIZE - 4, GRID_SIZE - 4);
             } 
             else if (cell === 'tent') {
-                // Draw triangles representing leather tent profiles from top-down
-                ctx.fillStyle = '#d35400';
+                ctx.fillStyle = '#e67e22';
                 ctx.beginPath();
                 ctx.moveTo(x + 10, y + 3);
                 ctx.lineTo(x + 17, y + 17);
@@ -239,15 +231,15 @@ function draw() {
         }
     }
 
-    // Draw active particle nodes (Smoke effects)
+    // Draw particles
     particles.forEach(p => {
-        ctx.fillStyle = `rgba(189, 195, 199, ${p.alpha})`;
+        ctx.fillStyle = `rgba(211, 214, 219, ${p.alpha})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
     });
 
-    // Draw Column Unit Assemblies (Soldiers or Baggage Carts)
+    // Draw marching unit positions
     if(currentPhase === PHASES.MARCH || currentPhase === PHASES.DEMOLISH) {
         luggageTrain.forEach(unit => {
             ctx.fillStyle = unit.color;
@@ -258,14 +250,15 @@ function draw() {
 
 function loop() {
     const section = document.getElementById('roman-section');
-
-    // Safety check: only update and draw if the section is explicitly visible
-    if (section && section.style.display === 'block') {
+    
+    // Explicit visibility state validation checking 
+    if (section && (section.style.display === 'block' || section.style.display === '')) {
         update();
         draw();
     }
     requestAnimationFrame(loop);
 }
 
-// Fire execution pipeline loop
+// Initial bootstrap execution triggers
+initGrid();
 loop();
