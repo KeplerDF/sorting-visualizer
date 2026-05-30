@@ -430,3 +430,47 @@ input[type="range"] {
     from { opacity: 0; transform: scale(0.5); }
     to { opacity: 1; transform: scale(1); }
 }
+
+/* --- Roman Castrum Tab Styles --- */
+.roman-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 15px;
+}
+
+.roman-hud {
+    background: var(--bg-card);
+    border: 1px solid #333;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.roman-hud h3 {
+    margin: 0 0 5px 0;
+    color: var(--primary);
+}
+
+#castrum-status {
+    font-weight: bold;
+    color: var(--warning);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.canvas-container {
+    background: #141414;
+    border: 2px solid #2c3e50;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+#castrumCanvas {
+    display: block;
+    background-color: #1e272e; /* Slate/earth tone background */
+}

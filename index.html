@@ -13,6 +13,7 @@
     <nav class="main-nav">
         <button class="nav-link active" data-target="sorting-section">Sorting Race</button>
         <button class="nav-link" data-target="datastructures-section">DataStructures</button>
+        <button class="nav-link" data-target="roman-section">Roman Castrum</button>
         <button class="nav-link" data-target="theory-section">Algorithm Theory</button>
     </nav>
 
@@ -248,6 +249,18 @@
         </div>
     </section>
 
+    <section id="roman-section" class="tab-content" style="display:none;">
+        <div class="roman-wrapper">
+            <div class="roman-hud">
+                <h3>Legio Castrum Simulation</h3>
+                <div id="castrum-status">Current Phase: Marching...</div>
+            </div>
+            <div class="canvas-container">
+                <canvas id="castrumCanvas" width="800" height="500"></canvas>
+            </div>
+        </div>
+    </section>
+    
     <section id="theory-section" class="tab-content" style="display:none;">
         <div style="padding: 50px; text-align: center;">
             <h2>Algorithm Theory</h2>
@@ -255,8 +268,9 @@
         </div>
     </section>
 
-<script src="ds-visualizer.js"></script>
-
-<script type="module" src="main.js"></script>
+    <script src="ds-visualizer.js"></script>
+    <script src="router.js"></script>
+    <script type="module" src="main.js"></script>
+    <script src="roman-visualizer.js"></script> 
 </body>
 </html>
