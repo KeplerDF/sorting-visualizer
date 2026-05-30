@@ -1,11 +1,15 @@
-// roman-visualizer.js
+// roman-visualizer.js (Top of the file)
 const canvas = document.getElementById('castrumCanvas');
 const ctx = canvas.getContext('2d');
 const statusText = document.getElementById('castrum-status');
 
+// Explicitly set the internal drawing resolution coordinates
+canvas.width = 800;
+canvas.height = 500;
+
 const GRID_SIZE = 20; // Size of each cell in pixels
-const COLS = canvas.width / GRID_SIZE;
-const ROWS = canvas.height / GRID_SIZE;
+const COLS = canvas.width / GRID_SIZE; // 40 columns
+const ROWS = canvas.height / GRID_SIZE; // 25 rows
 
 // Map States
 const PHASES = {
@@ -16,7 +20,7 @@ const PHASES = {
     DEMOLISH: 'PACKING BAGGAGE (VAS VASA)'
 };
 
-let currentPhase = PHASES.MARCH;
+let currentPhase = PHASES.BUILD;
 let phaseTimer = 0;
 let grid = [];
 let particles = [];
