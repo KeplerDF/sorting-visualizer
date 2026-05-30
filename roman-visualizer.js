@@ -1,4 +1,3 @@
-// roman-visualizer.js
 const canvas = document.getElementById('castrumCanvas');
 const ctx = canvas.getContext('2d');
 const statusText = document.getElementById('castrum-status');
@@ -18,7 +17,6 @@ const PHASES = {
     DEMOLISH: 'PACKING BAGGAGE (VAS VASA)'
 };
 
-// --- REGIONAL WORLD MAP DEFINITIONS ---
 const REGIONS = [
     { name: "BRITTANIA", bg: "#1e3f20", road: "#574028", wall: "#705335", wallStroke: "#543e26", customType: "tower", customColor: "#9c88ff" },
     { name: "HISPANIA",  bg: "#8a7355", road: "#c2b280", wall: "#9a8873", wallStroke: "#7a6a57", customType: "granary", customColor: "#f5cd79" },
@@ -26,7 +24,16 @@ const REGIONS = [
     { name: "GERMANIA",  bg: "#142416", road: "#3d2b1f", wall: "#4a3319", wallStroke: "#302110", customType: "fabrica", customColor: "#f78fb3" }
 ];
 
-let currentRegionIndex = 0; // Rotates through map locations sequentially
+// Earthy, historical tones for randomized military tents (Tentoria)
+const TENT_COLORS = [
+    '#d35400', // Terracotta Clay
+    '#e67e22', // Tan Leather
+    '#ba7c4a', // Coarse Burlap
+    '#d9ad7c', // Bleached Linen
+    '#a04000'  // Weathered Hide
+];
+
+let currentRegionIndex = 0; 
 let currentPhase = PHASES.MARCH_IN;
 let phaseTimer = 0;
 
@@ -34,15 +41,16 @@ let grid = [];
 let particles = [];
 let legionUnits = [];
 let workers = [];
-let patrols = []; // Roving guard units
+let patrols = []; 
 let activeBlueprints = [];
 
 const WORKER_COUNT = 6;       
 const BUILD_WORK_REQUIRED = 40; 
-const CAMP_LIVE_DURATION = 1000; // Left active slightly longer to watch patrols complete rounds
+const CAMP_LIVE_DURATION = 1000; 
 
 function initGrid() {
     grid = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
+    let rawSequence = [];
     activeBlueprints = [];
     particles = [];
     workers = [];
@@ -57,30 +65,40 @@ function initGrid() {
     // 1. Plan Defensive Outer Walls
     for(let c = startCol; c <= endCol; c++) {
         if(c === midCol) continue; 
-        activeBlueprints.push({r: startRow, c, type: 'wall', progress: 0, built: false});
-        activeBlueprints.push({r: endRow, c, type: 'wall', progress: 0, built: false});
+        rawSequence.push({r: startRow, c, type: 'wall', progress: 0, built: false});
+        rawSequence.push({r: endRow, c, type: 'wall', progress: 0, built: false});
     }
     for(let r = startRow; r <= endRow; r++) {
         if(r === midRow) continue; 
-        activeBlueprints.push({r, c: startCol, type: 'wall', progress: 0, built: false});
-        activeBlueprints.push({r, c: endCol, type: 'wall', progress: 0, built: false});
+        rawSequence.push({r, c: startCol, type: 'wall', progress: 0, built: false});
+        rawSequence.push({r, c: endCol, type: 'wall', progress: 0, built: false});
     }
 
     // 2. Plan Central Command Headquarters (Principia)
-    activeBlueprints.push({r: midRow, c: midCol, type: 'hq', progress: 0, built: false});
-    activeBlueprints.push({r: midRow-1, c: midCol, type: 'hq', progress: 0, built: false});
+    rawSequence.push({r: midRow, c: midCol, type: 'hq', progress: 0, built: false});
+    rawSequence.push({r: midRow-1, c: midCol, type: 'hq', progress: 0, built: false});
 
     // 3. Plan Regional Custom Structural Node
-    activeBlueprints.push({r: midRow - 1, c: midCol - 2, type: currentRegion.customType, progress: 0, built: false});
-    activeBlueprints.push({r: midRow, c: midCol - 2, type: currentRegion.customType, progress: 0, built: false});
+    rawSequence.push({r: midRow - 1, c: midCol - 2, type: currentRegion.customType, progress: 0, built: false});
+    rawSequence.push({r: midRow, c: midCol - 2, type: currentRegion.customType, progress: 0, built: false});
 
     // 4. Plan Soldier Quarter Barracks (Tents)
     for(let r = startRow + 2; r < endRow - 1; r += 2) {
         if(r === midRow || r === midRow - 1) continue;
         for(let c = startCol + 2; c < endCol - 1; c++) {
             if(c === midCol || c === midCol - 1 || c === midCol + 1 || c === midCol - 2) continue;
-            activeBlueprints.push({r, c: c, type: 'tent', progress: 0, built: false});
+            
+            // Assign a random tent color variation during initialization
+            const randomColor = TENT_COLORS[Math.floor(Math.random() * TENT_COLORS.length)];
+            rawSequence.push({r, c, type: 'tent', progress: 0, built: false, color: randomColor});
         }
+    }
+
+    // --- RANDOMIZATION UPGRADE ---
+    // Instead of sequentially loading elements, shuffle the entire map plan randomly
+    while (rawSequence.length > 0) {
+        const randomIndex = Math.floor(Math.random() * rawSequence.length);
+        activeBlueprints.push(rawSequence.splice(randomIndex, 1)[0]);
     }
 }
 
@@ -98,12 +116,10 @@ function spawnWorkers() {
     }
 }
 
-// Spawns 2 dedicated perimeter guards that patrol the exterior paths
 function spawnPatrols() {
     const startRow = 4, endRow = ROWS - 5;
     const startCol = 8, endCol = COLS - 9;
 
-    // Guard 1: Rotates clockwise around outer rampart line
     patrols.push({
         x: (startCol - 1) * GRID_SIZE + 10,
         y: (startRow - 1) * GRID_SIZE + 10,
@@ -117,7 +133,6 @@ function spawnPatrols() {
         speed: 1.0
     });
 
-    // Guard 2: Paces up and down the main horizontal roadway axis
     patrols.push({
         x: (startCol + 1) * GRID_SIZE + 10,
         y: Math.floor(ROWS / 2) * GRID_SIZE + 10,
@@ -134,7 +149,6 @@ function update() {
     phaseTimer++;
     const currentRegion = REGIONS[currentRegionIndex];
 
-    // --- PHASE 1: MARCH IN ---
     if (currentPhase === PHASES.MARCH_IN) {
         statusText.innerText = `[LOCATION: ${currentRegion.name}] ${currentPhase}`;
         statusText.style.color = '#3498db';
@@ -164,7 +178,6 @@ function update() {
             phaseTimer = 0;
         }
     } 
-    // --- PHASE 2: SURVEY ---
     else if (currentPhase === PHASES.SURVEY) {
         statusText.innerText = `[LOCATION: ${currentRegion.name}] ${currentPhase}`;
         statusText.style.color = '#f1c40f';
@@ -176,7 +189,6 @@ function update() {
             phaseTimer = 0;
         }
     } 
-    // --- PHASE 3: CONSTRUCTING ---
     else if (currentPhase === PHASES.BUILD) {
         statusText.innerText = `[LOCATION: ${currentRegion.name}] ${currentPhase}`;
         statusText.style.color = '#e67e22';
@@ -217,7 +229,11 @@ function update() {
 
                     if (w.target.progress >= BUILD_WORK_REQUIRED) {
                         w.target.built = true;
-                        grid[w.target.r][w.target.c] = w.target.type; 
+                        // Store full custom object metadata in the map grid grid cell
+                        grid[w.target.r][w.target.c] = { 
+                            type: w.target.type, 
+                            color: w.target.color || null 
+                        }; 
                         w.target = null; 
                     }
                 }
@@ -244,15 +260,13 @@ function update() {
             phaseTimer = 0;
             workers = []; 
             legionUnits = []; 
-            spawnPatrols(); // Start patrols now that walls are set up
+            spawnPatrols(); 
         }
     } 
-    // --- PHASE 4: CAMP LIFE ---
     else if (currentPhase === PHASES.LIVE) {
         statusText.innerText = `[LOCATION: ${currentRegion.name}] ${currentPhase}`;
         statusText.style.color = '#2ecc71';
 
-        // Update active patrols waypoint routing
         patrols.forEach(p => {
             let targetWay = p.waypoints[p.currentWayIdx];
             let dx = targetWay.x - p.x;
@@ -263,12 +277,10 @@ function update() {
                 p.x += (dx / distance) * p.speed;
                 p.y += (dy / distance) * p.speed;
             } else {
-                // Switch destination to next coordinate target loop node
                 p.currentWayIdx = (p.currentWayIdx + 1) % p.waypoints.length;
             }
         });
 
-        // Ambient cooking fires smoke particle system
         if(Math.random() < 0.15) {
             const midRow = Math.floor(ROWS / 2);
             const midCol = Math.floor(COLS / 2);
@@ -292,7 +304,7 @@ function update() {
         if (phaseTimer > CAMP_LIVE_DURATION) { 
             currentPhase = PHASES.DEMOLISH;
             phaseTimer = 0;
-            patrols = []; // Return guards to column assembly
+            patrols = []; 
             
             legionUnits = [];
             const midRow = Math.floor(ROWS / 2);
@@ -306,7 +318,6 @@ function update() {
             }
         }
     } 
-    // --- PHASE 5: PACK UP & MARCH OFF ---
     else if (currentPhase === PHASES.DEMOLISH) {
         statusText.innerText = `[LOCATION: ${currentRegion.name}] ${currentPhase}`;
         statusText.style.color = '#e74c3c';
@@ -333,9 +344,7 @@ function update() {
         });
 
         if (!unitsLeft && phaseTimer > 180) {
-            // Cycle location map index array step to trigger next environment profile
             currentRegionIndex = (currentRegionIndex + 1) % REGIONS.length;
-            
             currentPhase = PHASES.MARCH_IN;
             phaseTimer = 0;
             grid = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
@@ -347,30 +356,27 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const currentRegion = REGIONS[currentRegionIndex];
 
-    // Apply Region Environmental Ground Color Profile
     ctx.fillStyle = currentRegion.bg;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const midRow = Math.floor(ROWS / 2);
     const midCol = Math.floor(COLS / 2);
 
-    // Draw Roads
     if(currentPhase !== PHASES.MARCH_IN) {
         ctx.fillStyle = currentRegion.road; 
         ctx.fillRect(0, midRow * GRID_SIZE + 2, canvas.width, GRID_SIZE - 4);
         ctx.fillRect(midCol * GRID_SIZE + 2, 0, GRID_SIZE - 4, canvas.height);
     }
 
-    // Render Ghost Blueprints
     if (currentPhase === PHASES.BUILD) {
         activeBlueprints.forEach(b => {
             if (!b.built) {
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
                 ctx.lineWidth = 1;
                 ctx.strokeRect(b.c * GRID_SIZE + 3, b.r * GRID_SIZE + 3, GRID_SIZE - 6, GRID_SIZE - 6);
                 
                 if (b.progress > 0) {
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
                     const fillHeight = (b.progress / BUILD_WORK_REQUIRED) * (GRID_SIZE - 6);
                     ctx.fillRect(b.c * GRID_SIZE + 4, b.r * GRID_SIZE + 4, GRID_SIZE - 8, fillHeight);
                 }
@@ -378,7 +384,6 @@ function draw() {
         });
     }
 
-    // Render Cells
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             const cell = grid[r][c];
@@ -386,16 +391,19 @@ function draw() {
 
             const x = c * GRID_SIZE;
             const y = r * GRID_SIZE;
+            
+            // Read properties out of cell meta structure configuration
+            const type = cell.type;
 
-            if (cell === 'wall') {
+            if (type === 'wall') {
                 ctx.fillStyle = currentRegion.wall;
                 ctx.fillRect(x + 2, y + 2, GRID_SIZE - 4, GRID_SIZE - 4);
                 ctx.strokeStyle = currentRegion.wallStroke;
                 ctx.lineWidth = 1.5;
                 ctx.strokeRect(x + 2, y + 2, GRID_SIZE - 4, GRID_SIZE - 4);
             } 
-            else if (cell === 'tent') {
-                ctx.fillStyle = '#d35400';
+            else if (type === 'tent') {
+                ctx.fillStyle = cell.color; // Applies individual randomized leather shade
                 ctx.beginPath();
                 ctx.moveTo(x + 10, y + 3);
                 ctx.lineTo(x + 17, y + 17);
@@ -403,32 +411,28 @@ function draw() {
                 ctx.closePath();
                 ctx.fill();
             } 
-            else if (cell === 'hq') {
+            else if (type === 'hq') {
                 ctx.fillStyle = '#c0392b';
                 ctx.fillRect(x + 1, y + 1, GRID_SIZE - 2, GRID_SIZE - 2);
                 ctx.strokeStyle = '#f1c40f';
                 ctx.strokeRect(x + 1, y + 1, GRID_SIZE - 2, GRID_SIZE - 2);
             }
-            // --- DRAW REGION-SPECIFIC UNIQUE BUILDINGS ---
-            else if (cell === currentRegion.customType) {
+            else if (type === currentRegion.customType) {
                 ctx.fillStyle = currentRegion.customColor;
                 ctx.fillRect(x + 2, y + 2, GRID_SIZE - 4, GRID_SIZE - 4);
-                
-                // Overlay distinct geometric styles depending on architecture
                 ctx.strokeStyle = '#ffffff';
                 ctx.lineWidth = 1;
                 ctx.strokeRect(x + 4, y + 4, GRID_SIZE - 8, GRID_SIZE - 8);
                 
-                if (cell === 'tower') { // Draw X cross marker
+                if (type === 'tower') {
                     ctx.beginPath(); ctx.moveTo(x+4,y+4); ctx.lineTo(x+16,y+16); ctx.moveTo(x+16,y+4); ctx.lineTo(x+4,y+16); ctx.stroke();
-                } else if (cell === 'granary') { // Draw storage grid rows
+                } else if (type === 'granary') {
                     ctx.beginPath(); ctx.moveTo(x+10,y+4); ctx.lineTo(x+10,y+16); ctx.stroke();
                 }
             }
         }
     }
 
-    // Render Particles
     particles.forEach(p => {
         ctx.fillStyle = p.color || '#fff';
         ctx.globalAlpha = p.alpha;
@@ -438,7 +442,6 @@ function draw() {
         ctx.globalAlpha = 1.0;
     });
 
-    // Render Columns
     if(currentPhase === PHASES.MARCH_IN || currentPhase === PHASES.DEMOLISH) {
         legionUnits.forEach(unit => {
             ctx.fillStyle = unit.color;
@@ -446,7 +449,6 @@ function draw() {
         });
     }
 
-    // Render Workers
     if (currentPhase === PHASES.BUILD) {
         workers.forEach(w => {
             ctx.fillStyle = w.color;
@@ -455,23 +457,14 @@ function draw() {
         });
     }
 
-    // --- RENDER ROVING PERIMETER PATROLS ---
     if (currentPhase === PHASES.LIVE) {
         patrols.forEach(p => {
-            ctx.fillStyle = '#9b59b6'; // Purple dots for roaming sentry guards
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 4.5, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.fillStyle = '#9b59b6'; 
+            ctx.beginPath(); ctx.arc(p.x, p.y, 4.5, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.stroke();
             
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-            
-            // Add a faint vision-cone ping radius ring around guards
             ctx.strokeStyle = 'rgba(155, 89, 182, 0.3)';
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 15, 0, Math.PI * 2);
-            ctx.stroke();
+            ctx.beginPath(); ctx.arc(p.x, p.y, 15, 0, Math.PI * 2); ctx.stroke();
         });
     }
 }
