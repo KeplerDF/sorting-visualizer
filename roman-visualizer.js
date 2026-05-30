@@ -190,12 +190,12 @@ function update() {
                 const homeY = (canvas.height / 2);
                 const dx = homeX - w.x;
                 const dy = homeY - w.y;
-                const dist = Math.sqrt(dx * dx + dy * dist);
+                const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist > 10) {
                     w.x += (dx / dist) * w.speed;
                     w.y += (dy / dist) * w.speed;
-                }
-            }
+    }
+}
         });
 
         // Update dust particles
