@@ -253,8 +253,10 @@ function draw() {
 }
 
 function loop() {
-    // Keep engine processing only if tab workspace window is explicitly viewed
-    if(document.getElementById('roman-section').style.display !== 'none') {
+    const section = document.getElementById('roman-section');
+
+    // Safety check: only update and draw if the section is explicitly visible
+    if (section && section.style.display === 'block') {
         update();
         draw();
     }
