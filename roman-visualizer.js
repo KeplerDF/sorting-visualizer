@@ -1,6 +1,7 @@
+// roman-visualizer.js
 (function() {
     const canvas = document.getElementById('castrumCanvas');
-    if (!canvas) return; // Prevent crashing if canvas hasn't loaded yet
+    if (!canvas) return; 
 
     const ctx = canvas.getContext('2d');
     const statusText = document.getElementById('castrum-status');
@@ -497,15 +498,11 @@
     }
 
     function loop() {
-        const section = document.getElementById('roman-section');
-        // Only consume requestAnimationFrame compute ticks if the tab section is visible
-        if (section && (section.style.display === 'block' || section.style.display === '')) {
-            update();
-            draw();
-        }
+        // Safe, continuous animation loop logic
+        update();
+        draw();
         requestAnimationFrame(loop);
     }
 
-    // Fire off initialization on compile wrapper step
     loop();
 })();
