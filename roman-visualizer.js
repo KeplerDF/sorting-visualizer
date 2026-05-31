@@ -393,32 +393,39 @@
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (biomeGrid.length > 0) {
+        if (biomeGrid && biomeGrid.length > 0) {
             for (let r = 0; r < ROWS; r++) {
                 for (let c = 0; c < COLS; c++) {
-                    ctx.fillStyle = REGIONS[biomeGrid[r][c]].bg;
-                    ctx.fillRect(c * GRID_SIZE, r * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+                    if (biomeGrid[r] && REGIONS[biomeGrid[r][c]]) {
+                        ctx.fillStyle = REGIONS[biomeGrid[r][c]].bg;
+                        ctx.fillRect(c * GRID_SIZE, r * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+                    }
                 }
             }
         }
 
         ctx.fillStyle = '#2980b9';
-        riverTiles.forEach(t => {
-            ctx.fillRect(t.c * GRID_SIZE, t.r * GRID_SIZE, GRID_SIZE, GRID_SIZE);
-        });
+        if (riverTiles) {
+            riverTiles.forEach(t => {
+                ctx.fillRect(t.c * GRID_SIZE, t.r * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+            });
+        }
 
         ctx.fillStyle = '#9e7a56';
-        townTiles.forEach(t => {
-            let x = t.c * GRID_SIZE;
-            let y = t.r * GRID_SIZE;
-            ctx.fillRect(x + 2, y + 2, GRID_SIZE - 4, GRID_SIZE - 4);
-            ctx.strokeStyle = '#5c432b';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(x + 2, y + 2, GRID_SIZE - 4, GRID_SIZE - 4);
-        });
+        if (townTiles) {
+            townTiles.forEach(t => {
+                let x = t.c * GRID_SIZE;
+                let y = t.r * GRID_SIZE;
+                ctx.fillRect(x + 2, y + 2, GRID_SIZE - 4, GRID_SIZE - 4);
+                ctx.strokeStyle = '#5c432b';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(x + 2, y + 2, GRID_SIZE - 4, GRID_SIZE - 4);
+            });
+        }
 
         for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
+                if (!grid[r]) continue;
                 const cell = grid[r][c];
                 if (!cell) continue;
 
@@ -426,6 +433,8 @@
                 const y = r * GRID_SIZE;
                 const type = cell.type;
                 const currentRegion = REGIONS[biomeGrid[r][c]];
+
+                if (!currentRegion) continue;
 
                 if (type === 'wall') {
                     ctx.fillStyle = currentRegion.wall;
@@ -453,7 +462,7 @@
             }
         }
 
-        if (currentPhase === PHASES.BUILD) {
+        if (currentPhase === PHASES.BUILD && activeBlueprints) {
             activeBlueprints.forEach(b => {
                 if (!b.built) {
                     ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
@@ -467,36 +476,46 @@
             });
         }
 
-        particles.forEach(p => {
-            ctx.fillStyle = p.color; ctx.globalAlpha = p.alpha;
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
-            ctx.globalAlpha = 1.0;
-        });
+        if (particles) {
+            particles.forEach(p => {
+                ctx.fillStyle = p.color; ctx.globalAlpha = p.alpha;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+                ctx.globalAlpha = 1.0;
+            });
+        }
 
-        if (currentPhase === PHASES.WORLD_MARCH || currentPhase === PHASES.DEMOLISH) {
+        // ADDED EXTRA ARRAYS SAFETY GUARD HERE TO PREVENT UNCAUGHT TYPERRORS
+        if ((currentPhase === PHASES.WORLD_MARCH || currentPhase === PHASES.DEMOLISH) && legionCohort && legionCohort.length > 0) {
             legionCohort.forEach((unit, idx) => {
-                ctx.fillStyle = idx === 0 ? '#f1c40f' : unit.color; // Gold for leader, Red for soldiers
-                ctx.fillRect(unit.x - 4, unit.y - 4, 8, 8); // Slightly larger for better canvas visibility
-                ctx.fillStyle = idx === 0 ? '#d4af37' : '#962d22';
-                ctx.fillRect(unit.x + 3, unit.y - 2, 2, 5); // Scutum shield asset representation
+                if (unit) { 
+                    ctx.fillStyle = (idx === 0) ? '#ffea00' : '#e74c3c'; // Gold leader helmet
+                    ctx.fillRect(unit.x - 4, unit.y - 4, 8, 8); 
+                    
+                    ctx.fillStyle = (idx === 0) ? '#d4af37' : '#962d22';
+                    ctx.fillRect(unit.x + 3, unit.y - 3, 2, 6); 
+                }
             });
         }
 
-        if (currentPhase === PHASES.BUILD) {
+        if (currentPhase === PHASES.BUILD && workers) {
             workers.forEach(w => {
-                ctx.fillStyle = w.color;
-                ctx.beginPath(); ctx.arc(w.x, w.y, 4, 0, Math.PI * 2); ctx.fill();
-                ctx.strokeStyle = '#fff'; ctx.stroke();
+                if (w) {
+                    ctx.fillStyle = w.color;
+                    ctx.beginPath(); ctx.arc(w.x, w.y, 4, 0, Math.PI * 2); ctx.fill();
+                    ctx.strokeStyle = '#fff'; ctx.stroke();
+                }
             });
         }
 
-        if (currentPhase === PHASES.LIVE) {
+        if (currentPhase === PHASES.LIVE && patrols) {
             patrols.forEach(p => {
-                ctx.fillStyle = '#9b59b6'; 
-                ctx.beginPath(); ctx.arc(p.x, p.y, 4.5, 0, Math.PI * 2); ctx.fill();
-                ctx.strokeStyle = '#fff'; ctx.stroke();
-                ctx.strokeStyle = 'rgba(155, 89, 182, 0.2)';
-                ctx.beginPath(); ctx.arc(p.x, p.y, 15, 0, Math.PI * 2); ctx.stroke();
+                if (p) {
+                    ctx.fillStyle = '#9b59b6'; 
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 4.5, 0, Math.PI * 2); ctx.fill();
+                    ctx.strokeStyle = '#fff'; ctx.stroke();
+                    ctx.strokeStyle = 'rgba(155, 89, 182, 0.2)';
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 15, 0, Math.PI * 2); ctx.stroke();
+                }
             });
         }
     }
