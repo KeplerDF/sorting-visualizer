@@ -152,7 +152,7 @@
         legionCohort = [];
         for(let i = 0; i < COHORT_SIZE; i++) {
             legionCohort.push({
-                x: -i * 15 - 20, // Spawn offscreen and walk into position sequentially
+                x: -i * 15 - 10, // Walk sequentially onto the canvas from the left border edge
                 y: Math.floor(ROWS / 2) * GRID_SIZE + 10,
                 color: '#e74c3c',
                 history: []
@@ -196,43 +196,46 @@
                 statusText.style.color = '#3498db';
             }
 
-            const targetX = campCenter.c * GRID_SIZE + 10;
-            const targetY = campCenter.r * GRID_SIZE + 10;
-
-            if (legionCohort.length === 0) {
+            // Safety guard: If array didn't finish populating yet, spawn it right away
+            if (!legionCohort || legionCohort.length === 0) {
                 spawnCohort();
             }
 
+            const targetX = campCenter.c * GRID_SIZE + 10;
+            const targetY = campCenter.r * GRID_SIZE + 10;
+
             let leader = legionCohort[0];
-            let dx = targetX - leader.x;
-            let dy = targetY - leader.y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (leader) {
+                let dx = targetX - leader.x;
+                let dy = targetY - leader.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
 
-            leader.history.unshift({ x: leader.x, y: leader.y });
-            if (leader.history.length > 500) leader.history.pop();
+                leader.history.unshift({ x: leader.x, y: leader.y });
+                if (leader.history.length > 500) leader.history.pop();
 
-            if (distance > 5) {
-                let isSteppingOnWater = riverTiles.some(t => Math.floor(leader.y / GRID_SIZE) === t.r && Math.floor(leader.x / GRID_SIZE) === t.c);
-                let pace = isSteppingOnWater ? 0.9 : 1.8;
+                if (distance > 5) {
+                    let isSteppingOnWater = riverTiles.some(t => Math.floor(leader.y / GRID_SIZE) === t.r && Math.floor(leader.x / GRID_SIZE) === t.c);
+                    let pace = isSteppingOnWater ? 0.9 : 1.8;
 
-                leader.x += (dx / distance) * pace;
-                leader.y += (dy / distance) * pace;
-            }
-
-            for (let i = 1; i < legionCohort.length; i++) {
-                let follower = legionCohort[i];
-                let delayIndex = i * 8;
-                if (leader.history[delayIndex]) {
-                    follower.x = leader.history[delayIndex].x;
-                    follower.y = leader.history[delayIndex].y;
+                    leader.x += (dx / distance) * pace;
+                    leader.y += (dy / distance) * pace;
                 }
-            }
 
-            if (distance <= 5 && phaseTimer > 200) {
-                currentPhase = PHASES.BUILD;
-                phaseTimer = 0;
-                initCampBlueprints();
-                spawnWorkers();
+                for (let i = 1; i < legionCohort.length; i++) {
+                    let follower = legionCohort[i];
+                    let delayIndex = i * 8;
+                    if (leader.history[delayIndex]) {
+                        follower.x = leader.history[delayIndex].x;
+                        follower.y = leader.history[delayIndex].y;
+                    }
+                }
+
+                if (distance <= 5 && phaseTimer > 200) {
+                    currentPhase = PHASES.BUILD;
+                    phaseTimer = 0;
+                    initCampBlueprints();
+                    spawnWorkers();
+                }
             }
         }
         else if (currentPhase === PHASES.BUILD) {
@@ -472,10 +475,10 @@
 
         if (currentPhase === PHASES.WORLD_MARCH || currentPhase === PHASES.DEMOLISH) {
             legionCohort.forEach((unit, idx) => {
-                ctx.fillStyle = idx === 0 ? '#f1c40f' : unit.color; // Golden Helmet for Centurion/Captain!
-                ctx.fillRect(unit.x - 3, unit.y - 3, 6, 6);
-                ctx.fillStyle = '#962d22';
-                ctx.fillRect(unit.x + 2, unit.y - 2, 2, 4);
+                ctx.fillStyle = idx === 0 ? '#f1c40f' : unit.color; // Gold for leader, Red for soldiers
+                ctx.fillRect(unit.x - 4, unit.y - 4, 8, 8); // Slightly larger for better canvas visibility
+                ctx.fillStyle = idx === 0 ? '#d4af37' : '#962d22';
+                ctx.fillRect(unit.x + 3, unit.y - 2, 2, 5); // Scutum shield asset representation
             });
         }
 
@@ -504,7 +507,7 @@
         requestAnimationFrame(loop);
     }
 
-    // Run Initializations instantly upon script execution setup context
+    // Direct, explicit setup sequence
     generateWorldMap();
     spawnCohort();
     loop();
