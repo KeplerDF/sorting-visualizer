@@ -152,7 +152,7 @@
         legionCohort = [];
         for(let i = 0; i < COHORT_SIZE; i++) {
             legionCohort.push({
-                x: -i * 15 - 30,
+                x: -i * 15 - 20, // Spawn offscreen and walk into position sequentially
                 y: Math.floor(ROWS / 2) * GRID_SIZE + 10,
                 color: '#e74c3c',
                 history: []
@@ -196,13 +196,12 @@
                 statusText.style.color = '#3498db';
             }
 
-            if (phaseTimer === 1) {
-                generateWorldMap();
-                spawnCohort();
-            }
-
             const targetX = campCenter.c * GRID_SIZE + 10;
             const targetY = campCenter.r * GRID_SIZE + 10;
+
+            if (legionCohort.length === 0) {
+                spawnCohort();
+            }
 
             let leader = legionCohort[0];
             let dx = targetX - leader.x;
@@ -382,6 +381,8 @@
                 currentPhase = PHASES.WORLD_MARCH;
                 phaseTimer = 0;
                 grid = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
+                generateWorldMap();
+                spawnCohort();
             }
         }
     }
@@ -471,7 +472,7 @@
 
         if (currentPhase === PHASES.WORLD_MARCH || currentPhase === PHASES.DEMOLISH) {
             legionCohort.forEach((unit, idx) => {
-                ctx.fillStyle = idx === 0 ? '#f1c40f' : unit.color; 
+                ctx.fillStyle = idx === 0 ? '#f1c40f' : unit.color; // Golden Helmet for Centurion/Captain!
                 ctx.fillRect(unit.x - 3, unit.y - 3, 6, 6);
                 ctx.fillStyle = '#962d22';
                 ctx.fillRect(unit.x + 2, unit.y - 2, 2, 4);
@@ -498,11 +499,13 @@
     }
 
     function loop() {
-        // Safe, continuous animation loop logic
         update();
         draw();
         requestAnimationFrame(loop);
     }
 
+    // Run Initializations instantly upon script execution setup context
+    generateWorldMap();
+    spawnCohort();
     loop();
 })();
